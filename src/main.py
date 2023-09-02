@@ -1,9 +1,13 @@
 from fastapi import FastAPI
-from routes import routes
+from routes.routes import routes as allRoutes
 
 app = FastAPI()
 
-app.include_router(routes)
+@app.get('/', tags=["Health Check"], summary="Rota default onde podemos verificar a saude da aplicação")
+def healthCheck():
+    return "Rodando"
+
+app.include_router(allRoutes)
 
 if __name__ == "__main__":
     import uvicorn
