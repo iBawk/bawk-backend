@@ -11,7 +11,6 @@ def createUser(user: User, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
     
     try:
-        print('1')
         return user_controller.register_user(email=user.email, password=user.password)
     except Exception as e:
         return e

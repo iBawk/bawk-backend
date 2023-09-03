@@ -13,10 +13,6 @@ class UserService:
         self.password_hasher = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
     def create_user(self, email: str, password: str):
-        
-        print('3')
-        
-        
         prev_user = self.user_repository.get_user_by_email(email)
         if prev_user:
             return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email já cadastrado.")

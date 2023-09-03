@@ -14,7 +14,6 @@ class UserController:
         
     def register_user(self, email: str, password: str):
         try:
-            print('2')
             return self.user_service.create_user(email=email, password=password)
         except Exception as e:
             print(e)
