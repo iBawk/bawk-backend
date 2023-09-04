@@ -23,4 +23,11 @@ class UserRepository:
         except Exception as e:
             return e
         
+    def get_user_by_id(self, id: str):
+        try:
+            user = self.db.query(UserModel).filter(UserModel.id == id).first()
+            return user
+        except Exception as e:
+            return e
+        
 
