@@ -10,7 +10,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 def verifyJWT(db: Session = Depends(get_db_Session), token: str = Depends(oauth2_scheme)):
     try:
-        payload = jwt.decode(token, config('SECRET_KEY'), algorithms=["HS256"]) 
+        payload = jwt.decode(token, config('SECRET_KEY'), config('ALGORITHM')) 
         user_id = payload.get("id")
         if user_id is None:
             raise HTTPException(status_code=401, detail="Token inválido")
