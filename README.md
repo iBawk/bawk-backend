@@ -1,7 +1,8 @@
-## Trabalhando com migrations:
+# Bawk
 
-    Após ser modificado a modelagem dos dados, deve-se utilizar o comando:
+- Após ser modificado a modelagem dos dados, deve-se utilizar o comando:
 
-        [```alembic revision --autogenerate -m "nome-da-migration"```]
-        e
-        [''alembic upgrade head'']
+```bash
+    alembic revision --autogenerate -m "nome-da-migration"
+    alembic upgrade head
+```
