@@ -29,17 +29,12 @@ class tokenService:
     def verify_token(self, token: str):
         try:
             payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-            print(payload)
             
             expiration_time = payload.get('exp')
             current_time = datetime.utcnow().timestamp()
-            
-            if expiration_time:
-                expiration_datetime = datetime.fromtimestamp(expiration_time)
-                print("Tempo de expiração do token:", expiration_datetime)
-                
-                if current_time > expiration_time:
-                    raise ExpiredSignatureError("Token de atualização expirado")
+                            
+            if current_time > expiration_time:
+                raise ExpiredSignatureError("Token de atualização expirado")
             
             return payload
         except ExpiredSignatureError as e:

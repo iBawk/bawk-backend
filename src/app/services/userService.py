@@ -34,10 +34,6 @@ class UserService:
 
     def authenticate_user(self, credentials):
         user_on_db = self.user_repository.get_user_by_email(credentials.email)
-        user_info = vars(user_on_db)
-        for attr, value in user_info.items():
-            print(f"{attr}: {value}")
-
         if user_on_db is None:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -86,8 +82,7 @@ class UserService:
                 status_code=401, detail="Token de atualização inválido")
 
         user_data = self.user_repository.get_user_by_id(refresh_data['id'])
-        print(user_data)
-
+        
         payloadAccess = {
             "id": user_data.id,
             "email": user_data.email,
