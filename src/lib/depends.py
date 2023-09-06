@@ -1,5 +1,5 @@
-from fastapi import Depends
 from db.connection import Session
+
 
 def get_db_Session():
     try:

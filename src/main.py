@@ -3,7 +3,11 @@ from routes.routes import routes as allRoutes
 
 app = FastAPI()
 
-@app.get('/', tags=["Health Check"], summary="Rota default onde podemos verificar a saude da aplicação")
+@app.get(
+    '/',
+         tags=["Health Check"],
+         summary="Rota default onde podemos verificar a saude da aplicação"
+        )
 def healthCheck():
     return "Rodando"
 
