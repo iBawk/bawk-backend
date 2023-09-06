@@ -13,7 +13,8 @@ class UserService:
         self.db = db
         self.user_repository = UserRepository(db)
         self.token_service = tokenService()
-        self.password_hasher = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
+        self.password_hasher = CryptContext(
+            schemes=["sha256_crypt"], deprecated="auto")
 
     def create_user(self, credentials):
         prev_user = self.user_repository.get_user_by_email(credentials.email)
@@ -37,19 +38,19 @@ class UserService:
         if user_on_db is None:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail = { 
-                          "error": "true", 
-                          "message": "Usuario ou senha incorretos."
-                        },
+                detail={
+                    "error": "true",
+                    "message": "Usuario ou senha incorretos."
+                },
             )
 
         if not self.password_hasher.verify(credentials.password, user_on_db.password):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
-                detail = { 
-                          "error": "true", 
-                          "message": "Usuario ou senha incorretos."
-                        },
+                detail={
+                    "error": "true",
+                    "message": "Usuario ou senha incorretos."
+                },
             )
 
         payloadAccess = {
@@ -82,7 +83,7 @@ class UserService:
                 status_code=401, detail="Token de atualização inválido")
 
         user_data = self.user_repository.get_user_by_id(refresh_data['id'])
-        
+
         payloadAccess = {
             "id": user_data.id,
             "email": user_data.email,

@@ -3,13 +3,15 @@ from routes.routes import routes as allRoutes
 
 app = FastAPI()
 
+
 @app.get(
     '/',
-         tags=["Health Check"],
-         summary="Rota default onde podemos verificar a saude da aplicação"
-        )
+    tags=["Health Check"],
+    summary="Rota default onde podemos verificar a saude da aplicação"
+)
 def healthCheck():
     return "Rodando"
+
 
 app.include_router(allRoutes)
 
