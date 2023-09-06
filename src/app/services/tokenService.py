@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 from jose import ExpiredSignatureError, JWTError, jwt
 from decouple import config as env
 
@@ -44,6 +44,12 @@ class tokenService:
             return payload
         except ExpiredSignatureError as e:
             print(e)
-            raise HTTPException(status_code=401, detail="Token de atualização expirado")
-        except JWTError:
-            return None
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, 
+                detail= {
+                        "error": True,  
+                        "message":"Token de atualização expirado"
+                        }
+                    ) from e
+        except JWTError as e:
+            raise JWTError from e

@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from routes.routes import routes as allRoutes
 
 app = FastAPI()
