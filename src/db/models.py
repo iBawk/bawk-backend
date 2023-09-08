@@ -15,7 +15,7 @@ class UserModel(Base):
     email = Column('email', String, nullable=False, unique=True)
     password = Column('password', String, nullable=False)
     phone = Column('phone', String, default='')
-    photo = Column('photo', LargeBinary, default='')
+    photo = Column('photo', LargeBinary, nullable=True)
     isUpdated = Column('isUpdated', Boolean, default=0)
     emailVerified = Column('emailVerified', Boolean, default=0)
 

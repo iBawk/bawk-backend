@@ -26,7 +26,7 @@ class UserService:
         userId = str(uuid.uuid4())
 
         try:
-            user = UserModel(id=userId, email=credentials.email,
+            user = UserModel(id=userId, name=credentials.name, email=credentials.email,
                              password=hashed_password)
             return self.user_repository.create_user(user)
         except Exception as e:
