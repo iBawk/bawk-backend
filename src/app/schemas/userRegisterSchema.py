@@ -2,7 +2,8 @@ import re
 from pydantic import BaseModel, validator
 
 
-class User(BaseModel):
+class UserRegister(BaseModel):
+    name: str
     email: str
     password: str
 
