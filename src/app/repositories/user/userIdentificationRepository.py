@@ -8,7 +8,6 @@ class UserIdentificationRespository:
         self.db = db
 
     def create_user_identification(self, identification: UserIdentificationModel):
-        print(identification.__dict__)
         try:
             self.db.add(identification)
             self.db.commit()

@@ -8,7 +8,6 @@ class UserRepository:
         self.db = db
 
     def create_user(self, user: UserModel):
-        print(user.__dict__)
         try:
             self.db.add(user)
             self.db.commit()

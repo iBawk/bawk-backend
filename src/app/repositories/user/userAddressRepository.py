@@ -8,7 +8,6 @@ class UserAddressRepository:
         self.db = db
 
     def create_user_address(self, address: UserAddressModel):
-        print(address.__dict__)
         try:
             self.db.add(address)
             self.db.commit()
