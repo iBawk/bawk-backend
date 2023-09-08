@@ -39,7 +39,7 @@ def login(credentials: UserLogin, db: Session = Depends(get_db_Session)):
 
 @userRoutes.get('/refresh-token/{refresh_token}',
                 summary="Verifica validade do refresh token")
-async def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Session)):
+def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
     try:
@@ -47,3 +47,14 @@ async def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_
     except Exception as e:
         print(e)
         raise e
+
+
+@userRoutes.get('/{id}', summary="Busca usuario pelo id")
+def getUserByID(id: int, db: Session = Depends(get_db_Session)):
+    user_controller = UserController(db)
+
+    try:
+        return "oi"
+    except Exception as e:
+        print(e)
+        return e

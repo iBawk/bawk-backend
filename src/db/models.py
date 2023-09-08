@@ -19,18 +19,21 @@ class UserModel(Base):
     isUpdated = Column('isUpdated', Boolean, default=0)
     emailVerified = Column('emailVerified', Boolean, default=0)
 
+    # Novas colunas
+    address_id = Column('address_id', String, ForeignKey('usersAddress.id'))
+    identification_id = Column(
+        'identification_id', String, ForeignKey('usersIdentifications.id'))
+
     # Relacionamentos
-    address = relationship(
-        "UserAddressModel", back_populates="user", uselist=False)
+    address = relationship("UserAddressModel", back_populates="user")
     identification = relationship(
-        "UserIdentificationModel", back_populates="user", uselist=False)
+        "UserIdentificationModel", back_populates="user")
 
 
 class UserAddressModel(Base):
-    __tablename__ = 'userAddress'
+    __tablename__ = 'usersAddress'
 
     id = Column('id', String, primary_key=True, nullable=False)
-    user_id = Column('user_id', String, ForeignKey('users.id'), unique=True)
     country = Column('country', String)
     zipCode = Column('zipCode', String)
     street = Column('street', String)
@@ -44,10 +47,9 @@ class UserAddressModel(Base):
 
 
 class UserIdentificationModel(Base):
-    __tablename__ = 'UserIdentification'
+    __tablename__ = 'usersIdentifications'
 
     id = Column('id', String, primary_key=True)
-    user_id = Column('user_id', String, ForeignKey('users.id'), unique=True)
     nacionality = Column('nacionality', String)
     document = Column('document', String)
     birthDate = Column('birthDate', String)
