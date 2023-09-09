@@ -69,5 +69,5 @@ def getUserByID(id: str, db: Session = Depends(get_db_Session)):
 
 
 @userRoutes.get("/me")
-async def private_route(user: UserModel = Depends(verifyJWT)):
-    return {"message": "Esta é uma rota privada", 'user': user.as_dict()}
+def getUserByToken(user: UserModel = Depends(verifyJWT)):
+    return {'loggedUserInfo': user.as_dict()}

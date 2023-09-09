@@ -31,13 +31,17 @@ class UserModel(Base):
 
     def as_dict(self):
         user_dict = {
-            'id': self.id,
-            'name': self.name,
-            'email': self.email,
-            'phone': self.phone,
-            'photo': self.photo,
-            'isUpdated': self.isUpdated,
-            'emailVerified': self.emailVerified
+            'user': {
+                'id': self.id,
+                'name': self.name,
+                'email': self.email,
+                'phone': self.phone,
+                'photo': self.photo,
+                'isUpdated': self.isUpdated,
+                'emailVerified': self.emailVerified,
+            },
+            'address': self.address,
+            'identification': self.identification
         }
 
         return user_dict
