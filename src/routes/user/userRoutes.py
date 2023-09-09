@@ -46,15 +46,21 @@ def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Sessio
         return user_controller.refresh_token(refresh_token)
     except Exception as e:
         print(e)
-        raise e
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=e
+        )
 
 
 @userRoutes.get('/{id}', summary="Busca usuario pelo id")
-def getUserByID(id: int, db: Session = Depends(get_db_Session)):
+def getUserByID(id: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
     try:
-        return "oi"
+        return user_controller.get_by_id_user_service_v1.execute(id)
     except Exception as e:
         print(e)
-        return e
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=e
+        )
