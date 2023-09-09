@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from app.repositories.user.userRepository import UserRepository
+import json
 
 
 class getByIdUserServiceV1:
@@ -16,7 +17,7 @@ class getByIdUserServiceV1:
                 return HTTPException(
                     status_code=status.HTTP_404_NOT_FOUND, detail='Usuario não encontrado.')
 
-            return user
+            return user.as_dict()
         except Exception as e:
             print(e)
             raise (e)

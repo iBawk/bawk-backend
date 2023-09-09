@@ -26,9 +26,13 @@ class verifyRefreshTokenServiceV1:
         user_data = self.user_repository.get_user_by_id(refresh_data['id'])
 
         payloadAccess = {
-            "id": user_data.id,
-            "email": user_data.email,
-            "emailVerified": user_data.emailVerified
+            'id': user_data.id,
+            'name': user_data.name,
+            'email': user_data.email,
+            'phone': user_data.phone,
+            'photo': user_data.photo,
+            'isUpdated': user_data.isUpdated,
+            'emailVerified': user_data.emailVerified
         }
 
         payloadRefresh = {

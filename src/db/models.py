@@ -29,6 +29,19 @@ class UserModel(Base):
     identification = relationship(
         "UserIdentificationModel", back_populates="user")
 
+    def as_dict(self):
+        user_dict = {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'phone': self.phone,
+            'photo': self.photo,
+            'isUpdated': self.isUpdated,
+            'emailVerified': self.emailVerified
+        }
+
+        return user_dict
+
 
 class UserAddressModel(Base):
     __tablename__ = 'usersAddress'
