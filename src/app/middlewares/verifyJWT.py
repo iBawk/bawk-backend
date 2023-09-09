@@ -18,10 +18,10 @@ def verifyJWT(db: Session = Depends(get_db_Session), token: str = Depends(oauth2
         user = db.query(UserModel).filter(UserModel.id == user_id).first()
         if user is None:
             raise HTTPException(
-                status_code=401, detail="Usuário não encontrado")
+                status_code=401, detail="Token inválido")
         return user
     except jwt.ExpiredSignatureError as e:
-        raise HTTPException(status_code=401, detail="Token expirado") from e
+        raise HTTPException(status_code=401, detail="Token inválido") from e
     except jwt.JWTError as e:
         raise HTTPException(
-            status_code=401, detail="Erro ao decodificar token") from e
+            status_code=401, detail="Token inválido") from e

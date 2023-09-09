@@ -5,6 +5,8 @@ from app.schemas.userRegisterSchema import UserRegister
 from app.schemas.userLoginSchema import UserLogin
 from app.schemas.LoginResponseSchema import LoginResponse
 from lib.depends import get_db_Session
+from db.models import UserModel
+from app.middlewares.verifyJWT import verifyJWT
 
 userRoutes = APIRouter()
 
@@ -52,7 +54,7 @@ def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Sessio
         )
 
 
-@userRoutes.get('/{id}', summary="Busca usuario pelo id")
+@userRoutes.get('/id={id}', summary="Busca usuario pelo id")
 def getUserByID(id: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
@@ -64,3 +66,8 @@ def getUserByID(id: str, db: Session = Depends(get_db_Session)):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=e
         )
+
+
+@userRoutes.get("/me")
+async def private_route(user: UserModel = Depends(verifyJWT)):
+    return {"message": "Esta é uma rota privada", 'user': user.as_dict()}
