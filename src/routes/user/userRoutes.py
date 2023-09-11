@@ -4,6 +4,7 @@ from app.controllers.userController import UserController
 from app.schemas.userRegisterSchema import UserRegister
 from app.schemas.userLoginSchema import UserLogin
 from app.schemas.LoginResponseSchema import LoginResponse
+from app.schemas.userUpdateSchema import UserUpdateSchema
 from lib.depends import get_db_Session
 from db.models import UserModel
 from app.middlewares.verifyJWT import verifyJWT
@@ -68,6 +69,16 @@ def getUserByID(id: str, db: Session = Depends(get_db_Session)):
         )
 
 
-@userRoutes.get("/me")
+@userRoutes.get("/me", summary="Devolve usurio logado através do token.")
 def getUserByToken(user: UserModel = Depends(verifyJWT)):
     return {'loggedUserInfo': user.as_dict()}
+
+
+@userRoutes.put("/update", summary="Atualiza as informações do usuario.")
+def updateUser(data: UserUpdateSchema, db: Session = Depends(get_db_Session), user: UserModel = Depends(verifyJWT)):
+    user_controller = UserController(db)
+
+    try:
+        return user_controller.update_user(user.id, data)
+    except Exception as e:
+        return e
