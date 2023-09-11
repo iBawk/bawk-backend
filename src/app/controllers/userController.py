@@ -4,6 +4,8 @@ from app.services.user.createUser import createUserServiceV1
 from app.services.auth.authenticateUser import authenticateUserServiceV1
 from app.services.auth.verifyRefreshToken import verifyRefreshTokenServiceV1
 from app.services.user.getByIdUser import getByIdUserServiceV1
+from app.services.user.updateUser import UpdateUserServiceV1
+from app.schemas.userUpdateSchema import UserUpdateSchema
 
 app = FastAPI()
 
@@ -14,6 +16,7 @@ class UserController:
         self.authenticate_user_service_v1 = authenticateUserServiceV1(db)
         self.verify_refresh_token_service_v1 = verifyRefreshTokenServiceV1(db)
         self.get_by_id_user_service_v1 = getByIdUserServiceV1(db)
+        self.update_user_service_v1 = UpdateUserServiceV1(db)
 
     def register_user(self, credentials):
         try:
@@ -41,4 +44,10 @@ class UserController:
             return self.get_by_id_user_service_v1.execute(id=id)
         except Exception as e:
             print(e)
+            raise e
+
+    def update_user(self, id, data: UserUpdateSchema):
+        try:
+            return self.update_user_service_v1.execute(id, data)
+        except Exception as e:
             raise e

@@ -34,3 +34,14 @@ class UserRepository:
         except DatabaseError as e:
             print(e)
             raise e
+
+    def update_user(self, newUser: UserModel):
+        try:
+            self.db.add(newUser)
+            self.db.commit()
+            self.db.refresh(newUser)
+
+            return newUser
+        except DatabaseError as e:
+            print(e)
+            raise (e)
