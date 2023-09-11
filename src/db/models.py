@@ -67,7 +67,7 @@ class UserIdentificationModel(Base):
     __tablename__ = 'usersIdentifications'
 
     id = Column('id', String, primary_key=True)
-    nacionality = Column('nacionality', String)
+    nationality = Column('nationality', String)
     document = Column('document', String)
     birthDate = Column('birthDate', String)
 
