@@ -64,9 +64,7 @@ class createUserServiceV1:
                 )
             )
 
-            return {
-                "user": new_user,
-            }
+            return new_user.as_dict()
 
         except Exception as e:
             print(e)
