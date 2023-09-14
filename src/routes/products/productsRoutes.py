@@ -10,11 +10,11 @@ productRoutes = APIRouter()
 
 
 @productRoutes.post('/create', summary="Cria um produto.")
-def createProduct(product: Product, file: UploadFile, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
+def createProduct(product: Product, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     product_controller = productController(db)
 
     try:
-        return product_controller.createProduct(product, file, user)
+        return product_controller.createProduct(product, user)
     except Exception as e:
         print(e)
         return HTTPException(
