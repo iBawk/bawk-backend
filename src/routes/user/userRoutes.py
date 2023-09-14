@@ -60,7 +60,7 @@ def getUserByID(id: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
     try:
-        return user_controller.get_by_id_user_service_v1.execute(id)
+        return user_controller.get_by_id(id)
     except Exception as e:
         print(e)
         return HTTPException(
