@@ -90,3 +90,13 @@ class ProductModel(Base):
 
     # Define o relacionamento com UserModel
     user = relationship("UserModel", back_populates="products")
+
+
+class CategoryModel(Base):
+    __tablename__ = 'categories'
+
+    id = Column('id', String, primary_key=True, nullable=False)
+    name = Column('name', String, nullable=False)
+
+    # Define o relacionamento com UserModel
+    products = relationship("ProductModel", back_populates="category")
