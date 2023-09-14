@@ -41,7 +41,7 @@ class UserController:
 
     def get_by_id(self, id):
         try:
-            return self.get_by_id_user_service_v1.execute(id=id)
+            return self.get_by_id_user_service_v1.execute(id)
         except Exception as e:
             print(e)
             raise e
