@@ -1,8 +1,8 @@
-"""adding foreignkey for product owner
+"""adicionando saller infos e status
 
-Revision ID: 556ebe53115c
+Revision ID: d4782956f70b
 Revises: 
-Create Date: 2023-09-14 17:15:34.232952
+Create Date: 2023-09-15 14:56:02.664821
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '556ebe53115c'
+revision: str = 'd4782956f70b'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -63,12 +63,15 @@ def upgrade() -> None:
     sa.Column('id', sa.String(), nullable=False),
     sa.Column('owner_id', sa.String(), nullable=False),
     sa.Column('name', sa.String(), nullable=False),
+    sa.Column('photo', sa.LargeBinary(), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
-    sa.Column('createDate', sa.String(), nullable=False),
     sa.Column('format', sa.String(), nullable=False),
-    sa.Column('status', sa.String(), nullable=False),
+    sa.Column('status', sa.Integer(), nullable=True),
     sa.Column('markdown', sa.Text(), nullable=False),
-    sa.Column('fileDeliverable_id', sa.Integer(), nullable=False),
+    sa.Column('created_at', sa.String(), nullable=False),
+    sa.Column('sallerName', sa.String(), nullable=False),
+    sa.Column('sallerEmail', sa.String(), nullable=False),
+    sa.Column('sallerPhone', sa.String(), nullable=False),
     sa.Column('category_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['category_id'], ['categories.id'], ),
     sa.ForeignKeyConstraint(['owner_id'], ['users.id'], ),

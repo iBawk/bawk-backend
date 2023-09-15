@@ -26,10 +26,13 @@ class CreateProductService:
                 owner_id=user.id,
                 name=product.name,
                 description=product.description,
-                createDate=datetime.datetime.now(),
-                format="mp3",
-                status="pending",
+                format=product.format,
+                status=product.status,
                 markdown=product.markdown,
+                sallerInName=product.sallerInName,
+                sallerInEmail=product.sallerInEmail,
+                sallerInPhone=product.sallerInPhone,
+                created_at=datetime.datetime.now()
             )
         )
 
