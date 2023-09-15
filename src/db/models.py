@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Boolean, LargeBinary, ForeignKey
+from sqlalchemy import Column, String, Integer, Boolean, LargeBinary, ForeignKey, Text
 from sqlalchemy.orm import relationship
 
 try:
@@ -28,6 +28,7 @@ class UserModel(Base):
     address = relationship("UserAddressModel", back_populates="user")
     identification = relationship(
         "UserIdentificationModel", back_populates="user")
+    products = relationship("ProductModel", back_populates="user")
 
     def as_dict(self):
         user_dict = {
@@ -79,14 +80,31 @@ class ProductModel(Base):
     __tablename__ = 'products'
 
     id = Column('id', String, primary_key=True, nullable=False)
+    owner_id = Column('owner_id', String, ForeignKey(
+        'users.id'), nullable=False)
     name = Column('name', String, nullable=False)
     description = Column('description', String, nullable=False)
-    createDate = Column('createDate', String, nullable=False)
     format = Column('format', String, nullable=False)
-    status = Column('status', String, nullable=False)
-    fileDeliverable_id = Column('fileDeliverable_id', Integer, nullable=False)
+    status = Column('status', Integer, default=1)
+    markdown = Column('markdown', Text, nullable=False)
+    created_at = Column('created_at', String, nullable=False)
 
-    category = Column('category_id', Integer, ForeignKey('categories.id'))
+    sallerInName = Column('sallerName', String, nullable=False)
+    sallerInEmail = Column('sallerEmail', String, nullable=False)
+    sallerInPhone = Column('sallerPhone', String, nullable=False)
+
+    category_id = Column('category_id', Integer, ForeignKey('categories.id'))
 
     # Define o relacionamento com UserModel
     user = relationship("UserModel", back_populates="products")
+    category = relationship("CategoryModel", back_populates="products")
+
+
+class CategoryModel(Base):
+    __tablename__ = 'categories'
+
+    id = Column('id', String, primary_key=True, nullable=False)
+    name = Column('name', String, nullable=False)
+
+    # Define o relacionamento com UserModel
+    products = relationship("ProductModel", back_populates="category")
