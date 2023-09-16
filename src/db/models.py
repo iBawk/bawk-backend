@@ -1,5 +1,3 @@
-import json
-
 from sqlalchemy import (Boolean, Column, ForeignKey, Integer, LargeBinary,
                         String, Text)
 from sqlalchemy.orm import relationship
@@ -25,10 +23,14 @@ class UserModel(Base):
     address_id = Column('address_id', String, ForeignKey('usersAddress.id'))
     identification_id = Column(
         'identification_id', String, ForeignKey('usersIdentifications.id'))
+    preferences_id = Column(
+        'preferences_id', String, ForeignKey('usersPreferences.id'))
 
     address = relationship("UserAddressModel", back_populates="user")
     identification = relationship(
         "UserIdentificationModel", back_populates="user")
+    preferences = relationship(
+        "UserPreferencesModel", back_populates="user")
     products = relationship("ProductModel", back_populates="user")
 
     def as_dict(self):
@@ -73,6 +75,16 @@ class UserIdentificationModel(Base):
     birthDate = Column('birthDate', String)
 
     user = relationship("UserModel", back_populates="identification")
+
+
+class UserPreferencesModel(Base):
+    __tablename__ = 'usersPreferences'
+
+    id = Column('id', String, primary_key=True)
+    theme = Column('theme', Integer)
+    windowState = Column('windowState', Integer)
+
+    user = relationship("UserModel", back_populates="preferences")
 
 
 class ProductModel(Base):
