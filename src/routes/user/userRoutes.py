@@ -41,7 +41,7 @@ def login(credentials: UserLogin, db: Session = Depends(get_db_Session)):
         )
 
 
-@userRoutes.get('/refresh-token/{refresh_token}',
+@userRoutes.get('/refresh-token',
                 summary="Verifica validade do refresh token.")
 def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
@@ -57,7 +57,7 @@ def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Sessio
 
 
 @userRoutes.get('/{id}', summary="Busca usuario pelo id.")
-def getUserByID(id: str, db: Session = Depends(get_db_Session)):
+def getUserByID(id: str, db: Session = Depends(get_db_Session), user: UserModel = Depends(verifyJWT)):
     user_controller = UserController(db)
 
     try:

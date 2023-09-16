@@ -81,8 +81,8 @@ class UserPreferencesModel(Base):
     __tablename__ = 'usersPreferences'
 
     id = Column('id', String, primary_key=True)
-    theme = Column('theme', Integer)
-    windowState = Column('windowState', Integer)
+    theme = Column('theme', Integer, default=1)
+    windowState = Column('windowState', Integer, default=1)
 
     user = relationship("UserModel", back_populates="preferences")
 
