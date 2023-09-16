@@ -10,17 +10,17 @@ from app.schemas.productSchema import Product
 class CreateProductService:
     def __init__(self, db=Session):
         self.db = db
-        self.product_repostiry = ProductRepository(db)
+        self.product_repository = ProductRepository(db)
 
     def execute(self, product: Product, user: UserModel):
 
         product_id = str(uuid.uuid4())
-        id_existis = self.product_repostiry.find_by_id(product_id)
+        id_existis = self.product_repository.find_by_id(product_id)
         if id_existis:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Houve um problema ao criar seu produto, tente novamente mais tarde.")
 
-        newProduct = self.product_repostiry.create(
+        newProduct = self.product_repository.create(
             ProductModel(
                 id=product_id,
                 owner_id=user.id,
