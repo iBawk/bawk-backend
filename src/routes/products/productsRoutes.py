@@ -35,3 +35,19 @@ def deleteProduct(id: str, user: UserModel = Depends(verifyJWT), db: Session = D
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=e
         )
+
+@productRoutes.get('/{id}', summary="Mostra um produto pelo id.")
+def getProducById(id: str,db: Session = Depends(get_db_Session)):
+    product_controller = productController(db)
+
+    try:
+        return product_controller.getProductById(id)
+    
+    except Exception as e:
+        print(e)
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=e
+        )
+    
+    
