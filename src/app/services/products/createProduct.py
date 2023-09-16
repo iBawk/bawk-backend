@@ -1,10 +1,11 @@
+import datetime as datetime
 import uuid
-from sqlalchemy.orm import Session
+
 from app.repositories.products.productRepository import ProductRepository
+from app.schemas.productSchema import Product
 from db.models import ProductModel, UserModel
 from fastapi import HTTPException, status
-import datetime as datetime
-from app.schemas.productSchema import Product
+from sqlalchemy.orm import Session
 
 
 class CreateProductService:

@@ -1,5 +1,3 @@
-# todo: criar um enum para os status dos produtos
-
 from enum import Enum
 
 

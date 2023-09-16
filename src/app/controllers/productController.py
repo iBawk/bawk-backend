@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from fastapi import Depends
+
 from app.services.products.createProduct import CreateProductService
 from app.services.products.deleteProduct import DeleteProductService
 from app.services.products.getProductById import GetProductByIdService

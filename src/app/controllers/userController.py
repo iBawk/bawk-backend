@@ -1,11 +1,12 @@
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
-from app.services.user.createUser import createUserServiceV1
+
+from app.schemas.userUpdateSchema import UserUpdateSchema
 from app.services.auth.authenticateUser import authenticateUserServiceV1
 from app.services.auth.verifyRefreshToken import verifyRefreshTokenServiceV1
+from app.services.user.createUser import createUserServiceV1
 from app.services.user.getByIdUser import getByIdUserServiceV1
 from app.services.user.updateUser import UpdateUserServiceV1
-from app.schemas.userUpdateSchema import UserUpdateSchema
 
 app = FastAPI()
 

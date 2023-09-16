@@ -1,5 +1,6 @@
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import DatabaseError
+from sqlalchemy.orm import Session
+
 from db.models import UserAddressModel
 
 

@@ -1,4 +1,5 @@
-from sqlalchemy import Column, String, Integer, Boolean, LargeBinary, ForeignKey, Text
+from sqlalchemy import (Boolean, Column, ForeignKey, Integer, LargeBinary,
+                        String, Text)
 from sqlalchemy.orm import relationship
 
 try:

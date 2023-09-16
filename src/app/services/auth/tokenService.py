@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
+
+from decouple import config as env
 from fastapi import HTTPException, status
 from jose import ExpiredSignatureError, JWTError, jwt
-from decouple import config as env
 
 SECRET_KEY = env('SECRET_KEY')
 ALGORITHM = env('ALGORITHM')

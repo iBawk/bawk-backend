@@ -1,6 +1,6 @@
-from sqlalchemy.orm import Session
-from sqlalchemy.exc import DatabaseError
 from db.models import UserIdentificationModel
+from sqlalchemy.exc import DatabaseError
+from sqlalchemy.orm import Session
 
 
 class UserIdentificationRespository:
