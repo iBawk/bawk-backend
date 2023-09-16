@@ -1,5 +1,6 @@
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import DatabaseError
+from sqlalchemy.orm import Session
+
 from db.models import UserModel
 
 
@@ -17,10 +18,10 @@ class UserRepository:
             print(e)
             raise e
 
-    def get_user_by_email(self, email: str):
+    def get_user_by_email(self, emailToSearch: str):
         try:
             user = self.db.query(UserModel).filter(
-                UserModel.email == email).first()
+                UserModel.email == emailToSearch).first()
             return user
         except DatabaseError as e:
             print(e)

@@ -22,7 +22,7 @@ def createUser(credentials: UserRegister, db: Session = Depends(get_db_Session))
     except ConnectionAbortedError as e:
         print(e)
         return HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=e
         )
 
@@ -61,7 +61,7 @@ def getUserByID(id: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
     try:
-        return user_controller.get_by_id(id)
+        return user_controller.find_by_id(id)
     except Exception as e:
         print(e)
         return HTTPException(

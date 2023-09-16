@@ -1,14 +1,15 @@
 from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
 from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+
 from app.repositories.user.userRepository import UserRepository
-from app.services.auth.tokenService import tokenService
+from app.services.auth.tokenService import TokenService
 
 
-class authenticateUserServiceV1:
+class AuthenticateUserService:
     def __init__(self, db: Session):
         self.user_repository = UserRepository(db)
-        self.token_service = tokenService()
+        self.token_service = TokenService()
         self.password_hasher = CryptContext(
             schemes=["sha256_crypt"], deprecated="auto")
 

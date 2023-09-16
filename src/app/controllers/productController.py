@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 
 from app.services.products.createProduct import CreateProductService
 from app.services.products.deleteProduct import DeleteProductService
-from app.services.products.getProductById import GetProductByIdService
+from app.services.products.findProductById import FindByIdProductService
 
 
 class productController:
@@ -10,13 +10,25 @@ class productController:
         self.db = db
         self.create_product_service = CreateProductService(db)
         self.delete_product_service = DeleteProductService(db)
-        self.get_product_by_id = GetProductByIdService(db)
+        self.find_by_id_product_service = FindByIdProductService(db)
 
     def createProduct(self, product, user):
-        return self.create_product_service.execute(product, user)
+        try:
+            return self.create_product_service.execute(product, user)
+        except Exception as e:
+            print(e)
+            raise e
 
-    def deleteProduct(self, id):
-        return self.delete_product_service.execute(id)
+    def deleteProduct(self, productId):
+        try:
+            return self.delete_product_service.execute(productId)
+        except Exception as e:
+            print(e)
+            raise e
 
-    def getProductById(self, id):
-        return self.get_product_by_id.execute(id)
+    def findProductById(self, productId):
+        try:
+            return self.find_by_id_product_service.execute(productId)
+        except Exception as e:
+            print(e)
+            raise e

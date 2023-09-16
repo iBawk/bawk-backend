@@ -1,11 +1,12 @@
-import datetime as datetime
+import datetime
 import uuid
+
+from fastapi import HTTPException, status
+from sqlalchemy.orm import Session
 
 from app.repositories.products.productRepository import ProductRepository
 from app.schemas.productSchema import Product
 from db.models import ProductModel, UserModel
-from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
 
 
 class CreateProductService:
@@ -19,7 +20,9 @@ class CreateProductService:
         id_existis = self.product_repository.find_by_id(product_id)
         if id_existis:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Houve um problema ao criar seu produto, tente novamente mais tarde.")
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Houve um problema ao criar seu produto, tente novamente mais tarde."
+            )
 
         newProduct = self.product_repository.create(
             ProductModel(

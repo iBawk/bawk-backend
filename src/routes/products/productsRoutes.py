@@ -21,10 +21,7 @@ def createProduct(
         return product_controller.createProduct(product, user)
     except Exception as e:
         print(e)
-        return HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=e
-        )
+        return e
 
 
 @productRoutes.delete('', summary="Delete um produto.")
@@ -33,7 +30,7 @@ def deleteProduct(
     user: UserModel = Depends(verifyJWT),
     db: Session = Depends(get_db_Session)
 ):
-    product_controller = productController(db)
+    product_controller = productController(db, user)
 
     try:
         return product_controller.deleteProduct(id)
@@ -45,12 +42,12 @@ def deleteProduct(
         )
 
 
-@productRoutes.get('/{id}', summary="Mostra um produto pelo id.")
+@productRoutes.get('/{id}', summary="Busca um produto pelo id.")
 def getProducById(id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     product_controller = productController(db)
 
     try:
-        return product_controller.getProductById(id)
+        return product_controller.findProductById(id)
 
     except Exception as e:
         print(e)

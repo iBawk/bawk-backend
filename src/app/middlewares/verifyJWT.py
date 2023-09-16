@@ -13,7 +13,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 def verifyJWT(
     db: Session = Depends(get_db_Session),
     token: str = Depends(oauth2_scheme)
-):
+): 
+    
     try:
         payload = jwt.decode(token, config('SECRET_KEY'), config('ALGORITHM'))
         user_id = payload.get("id")

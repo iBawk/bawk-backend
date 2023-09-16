@@ -1,3 +1,5 @@
+import json
+
 from sqlalchemy import (Boolean, Column, ForeignKey, Integer, LargeBinary,
                         String, Text)
 from sqlalchemy.orm import relationship
@@ -20,12 +22,10 @@ class UserModel(Base):
     isUpdated = Column('isUpdated', Boolean, default=0)
     emailVerified = Column('emailVerified', Boolean, default=0)
 
-    # Novas colunas
     address_id = Column('address_id', String, ForeignKey('usersAddress.id'))
     identification_id = Column(
         'identification_id', String, ForeignKey('usersIdentifications.id'))
 
-    # Relacionamentos
     address = relationship("UserAddressModel", back_populates="user")
     identification = relationship(
         "UserIdentificationModel", back_populates="user")
@@ -61,7 +61,6 @@ class UserAddressModel(Base):
     city = Column('city', String)
     state = Column('state', String)
 
-    # Define o relacionamento com UserModel
     user = relationship("UserModel", back_populates="address")
 
 
@@ -73,7 +72,6 @@ class UserIdentificationModel(Base):
     document = Column('document', String)
     birthDate = Column('birthDate', String)
 
-    # Define o relacionamento com UserModel
     user = relationship("UserModel", back_populates="identification")
 
 
@@ -96,7 +94,6 @@ class ProductModel(Base):
 
     category_id = Column('category_id', Integer, ForeignKey('categories.id'))
 
-    # Define o relacionamento com UserModel
     user = relationship("UserModel", back_populates="products")
     category = relationship("CategoryModel", back_populates="products")
 
@@ -107,5 +104,4 @@ class CategoryModel(Base):
     id = Column('id', String, primary_key=True, nullable=False)
     name = Column('name', String, nullable=False)
 
-    # Define o relacionamento com UserModel
     products = relationship("ProductModel", back_populates="category")

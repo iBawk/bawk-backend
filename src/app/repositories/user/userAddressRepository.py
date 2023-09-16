@@ -18,7 +18,7 @@ class UserAddressRepository:
             print(e)
             raise e
 
-    def get_by_id_address(self, idToSearch: str):
+    def find_by_id_address(self, idToSearch: str):
         try:
             return self.db.query(UserAddressModel).filter_by(id=idToSearch).first()
         except DatabaseError as e:

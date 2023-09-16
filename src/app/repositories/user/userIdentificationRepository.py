@@ -1,6 +1,7 @@
-from db.models import UserIdentificationModel
 from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm import Session
+
+from db.models import UserIdentificationModel
 
 
 class UserIdentificationRespository:
@@ -16,7 +17,7 @@ class UserIdentificationRespository:
         except DatabaseError as e:
             raise e
 
-    def get_by_id_identification(self, idToSearch: str):
+    def find_by_id_identification(self, idToSearch: str):
         try:
             return self.db.query(UserIdentificationModel).filter_by(id=idToSearch).first()
         except DatabaseError as e:

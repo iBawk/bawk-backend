@@ -10,7 +10,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 50
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 5
 
 
-class tokenService:
+class TokenService:
 
     def create_access_token(self, data: dict):
         to_encode = data

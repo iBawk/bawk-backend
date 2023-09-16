@@ -1,14 +1,17 @@
 import uuid
-from sqlalchemy.orm import Session
-from passlib.context import CryptContext
+
 from fastapi import HTTPException, status
-from db.models import UserModel, UserAddressModel, UserIdentificationModel
-from app.repositories.user.userRepository import UserRepository
+from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+
 from app.repositories.user.userAddressRepository import UserAddressRepository
-from app.repositories.user.userIdentificationRepository import UserIdentificationRespository
+from app.repositories.user.userIdentificationRepository import \
+    UserIdentificationRespository
+from app.repositories.user.userRepository import UserRepository
+from db.models import UserAddressModel, UserIdentificationModel, UserModel
 
 
-class createUserServiceV1:
+class CreateUserServiceV1:
     def __init__(self, db: Session):
         self.db = db
         self.user_repository = UserRepository(db)
