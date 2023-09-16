@@ -32,7 +32,11 @@ class VerifyRefreshTokenService:
             'phone': user_data.phone,
             'photo': user_data.photo,
             'isUpdated': user_data.isUpdated,
-            'emailVerified': user_data.emailVerified
+            'emailVerified': user_data.emailVerified,
+            'preferences': {
+                'theme': user_data.preferences.theme,
+                'windowState': user_data.preferences.windowState,
+            }
         }
 
         payloadRefresh = {

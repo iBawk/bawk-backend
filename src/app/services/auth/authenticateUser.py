@@ -40,7 +40,11 @@ class AuthenticateUserService:
             'phone': user_on_db.phone,
             'photo': user_on_db.photo,
             'isUpdated': user_on_db.isUpdated,
-            'emailVerified': user_on_db.emailVerified
+            'emailVerified': user_on_db.emailVerified,
+            'preferences': {
+                'theme': user_on_db.preferences.theme,
+                'windowState': user_on_db.preferences.windowState,
+            }
         }
 
         payloadRefresh = {
