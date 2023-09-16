@@ -7,8 +7,11 @@ from sqlalchemy.orm import Session
 from app.repositories.user.userAddressRepository import UserAddressRepository
 from app.repositories.user.userIdentificationRepository import \
     UserIdentificationRespository
+from app.repositories.user.userPreferencesRepository import \
+    UserPreferencesRepository
 from app.repositories.user.userRepository import UserRepository
-from db.models import UserAddressModel, UserIdentificationModel, UserModel
+from db.models import (UserAddressModel, UserIdentificationModel, UserModel,
+                       UserPreferencesModel)
 
 
 class CreateUserServiceV1:
@@ -17,6 +20,7 @@ class CreateUserServiceV1:
         self.user_repository = UserRepository(db)
         self.user_address_repository = UserAddressRepository(db)
         self.user_identification_repository = UserIdentificationRespository(db)
+        self.user_preferences_repository = UserPreferencesRepository(db)
         self.password_hasher = CryptContext(
             schemes=["sha256_crypt"], deprecated="auto")
 
@@ -31,18 +35,27 @@ class CreateUserServiceV1:
         userId = str(uuid.uuid4())
         userAddreesId = str(uuid.uuid4())
         userIdentificationId = str(uuid.uuid4())
+        userPreferencesId = str(uuid.uuid4())
 
         userIdExistis = self.db.query(UserModel).filter_by(id=userId).first()
         addressIdExistis = self.db.query(
-            UserAddressModel).filter_by(id=userId).first()
+            UserAddressModel).filter_by(id=userAddreesId).first()
         identIdExistis = self.db.query(
-            UserIdentificationModel).filter_by(id=userId).first()
+            UserIdentificationModel).filter_by(id=userIdentificationId).first()
+        preferencesIdExistis = self.db.query(UserPreferencesModel).filter_by(
+            id=userPreferencesId).first()
 
-        if (userIdExistis or addressIdExistis or identIdExistis):
+        if (userIdExistis or addressIdExistis or identIdExistis or preferencesIdExistis):
             raise HTTPException(
                 "Houve um problema ao criar o usuario, tente novamente mais tarde.")
 
         try:
+
+            self.user_preferences_repository.create_user_preferences(
+                UserPreferencesModel(
+                    id=userPreferencesId,
+                )
+            )
 
             self.user_identification_repository.create_user_identification(
                 UserIdentificationModel(
@@ -63,7 +76,8 @@ class CreateUserServiceV1:
                     email=credentials.email,
                     password=hashed_password,
                     address_id=userAddreesId,
-                    identification_id=userIdentificationId
+                    identification_id=userIdentificationId,
+                    preferences_id=userPreferencesId
                 )
             )
 
