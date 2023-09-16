@@ -1,6 +1,7 @@
 from fastapi import APIRouter
-from routes.user.userRoutes import userRoutes
+
 from routes.products.productsRoutes import productRoutes
+from routes.user.userRoutes import userRoutes
 
 routes = APIRouter()
 

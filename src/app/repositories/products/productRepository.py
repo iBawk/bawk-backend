@@ -1,7 +1,8 @@
-from sqlalchemy.orm import Session
 from fastapi import Depends
-from lib.depends import get_db_Session
+from sqlalchemy.orm import Session
+
 from db.models import ProductModel
+from lib.depends import get_db_Session
 
 
 class ProductRepository:
@@ -20,9 +21,8 @@ class ProductRepository:
 
     def find_by_id(self, id: str):
         return self.db.query(ProductModel).filter_by(id=id).first()
-    
+
     def delete(self, product: ProductModel):
         self.db.delete(product)
         self.db.commit()
         return product
-

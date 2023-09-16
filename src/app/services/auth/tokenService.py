@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
+
+from decouple import config as env
 from fastapi import HTTPException, status
 from jose import ExpiredSignatureError, JWTError, jwt
-from decouple import config as env
 
 SECRET_KEY = env('SECRET_KEY')
 ALGORITHM = env('ALGORITHM')
@@ -9,7 +10,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 50
 REFRESH_TOKEN_EXPIRE_MINUTES = 60 * 24 * 5
 
 
-class tokenService:
+class TokenService:
 
     def create_access_token(self, data: dict):
         to_encode = data

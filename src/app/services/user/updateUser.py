@@ -1,34 +1,35 @@
+from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-from app.repositories.user.userRepository import UserRepository
+
 from app.repositories.user.userAddressRepository import UserAddressRepository
-from app.repositories.user.userIdentificationRepository import UserIdentificationRespository
+from app.repositories.user.userIdentificationRepository import \
+    UserIdentificationRespository
+from app.repositories.user.userRepository import UserRepository
 from app.schemas.userUpdateSchema import UserUpdateSchema
 
-from fastapi import HTTPException, status
 
-
-class UpdateUserServiceV1:
+class UpdateUserService:
     def __init__(self, db: Session):
         self.db = db
         self.user_repository = UserRepository(db)
         self.address_repository = UserAddressRepository(db)
         self.ident_repository = UserIdentificationRespository(db)
 
-    def execute(self, id: str, data: UserUpdateSchema):
+    def execute(self, idToUpdate: str, data: UserUpdateSchema):
         if not id:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail='Id do usuario não especificado.')
 
-        user_on_db = self.user_repository.get_user_by_id(idSearch=id)
+        user_on_db = self.user_repository.get_user_by_id(idSearch=idToUpdate)
 
         if not user_on_db:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail='Usuario não encontrado.')
 
-        user_address_on_db = self.address_repository.get_by_id_address(
+        user_address_on_db = self.address_repository.find_by_id_address(
             idToSearch=user_on_db.address_id)
 
-        user_identification_on_db = self.ident_repository.get_by_id_identification(
+        user_identification_on_db = self.ident_repository.find_by_id_identification(
             idToSearch=user_on_db.identification_id)
 
         if data.user.email != user_on_db.email:

@@ -1,13 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+
 from app.controllers.userController import UserController
-from app.schemas.userRegisterSchema import UserRegister
-from app.schemas.userLoginSchema import UserLogin
-from app.schemas.LoginResponseSchema import LoginResponse
-from app.schemas.userUpdateSchema import UserUpdateSchema
-from lib.depends import get_db_Session
-from db.models import UserModel
 from app.middlewares.verifyJWT import verifyJWT
+from app.schemas.LoginResponseSchema import LoginResponse
+from app.schemas.userLoginSchema import UserLogin
+from app.schemas.userRegisterSchema import UserRegister
+from app.schemas.userUpdateSchema import UserUpdateSchema
+from db.models import UserModel
+from lib.depends import get_db_Session
 
 userRoutes = APIRouter()
 
@@ -21,12 +22,12 @@ def createUser(credentials: UserRegister, db: Session = Depends(get_db_Session))
     except ConnectionAbortedError as e:
         print(e)
         return HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
+            status_code=status.HTTP_400_BAD_REQUEST,
             detail=e
         )
 
 
-@userRoutes.get('/login', summary="Realiza login", response_model=LoginResponse)
+@userRoutes.get('/login', summary="Realiza login.", response_model=LoginResponse)
 def login(credentials: UserLogin, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
@@ -41,7 +42,7 @@ def login(credentials: UserLogin, db: Session = Depends(get_db_Session)):
 
 
 @userRoutes.get('/refresh-token/{refresh_token}',
-                summary="Verifica validade do refresh token")
+                summary="Verifica validade do refresh token.")
 def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
@@ -55,12 +56,12 @@ def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Sessio
         )
 
 
-@userRoutes.get('/id={id}', summary="Busca usuario pelo id")
+@userRoutes.get('/{id}', summary="Busca usuario pelo id.")
 def getUserByID(id: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
     try:
-        return user_controller.get_by_id(id)
+        return user_controller.find_by_id(id)
     except Exception as e:
         print(e)
         return HTTPException(
@@ -69,13 +70,17 @@ def getUserByID(id: str, db: Session = Depends(get_db_Session)):
         )
 
 
-@userRoutes.get("/me", summary="Devolve usurio logado através do token.")
+@userRoutes.get("/me", summary="Devolve usuário logado através do token.")
 def getUserByToken(user: UserModel = Depends(verifyJWT)):
     return {'loggedUserInfo': user.as_dict()}
 
 
-@userRoutes.put("/update", summary="Atualiza as informações do usuario.")
-def updateUser(data: UserUpdateSchema, db: Session = Depends(get_db_Session), user: UserModel = Depends(verifyJWT)):
+@userRoutes.put("/update", summary="Atualiza as informações do usuário.")
+def updateUser(
+        data: UserUpdateSchema,
+        db: Session = Depends(get_db_Session),
+        user: UserModel = Depends(verifyJWT)
+):
     user_controller = UserController(db)
 
     try:
