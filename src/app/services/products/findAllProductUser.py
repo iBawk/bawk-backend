@@ -13,10 +13,5 @@ class FindAllProductUserService:
         show_products = self.product_repository.find_products_by_owner_id(
             owner_id=user.id
         )
-        if not show_products:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Você não tem produtos",
-            )
 
         return show_products
