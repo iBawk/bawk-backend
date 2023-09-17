@@ -6,7 +6,5 @@
             "source.organizeImports": true,
             "source.fixAll": true,
         },
-        "editor.defaultFormatter": "ms-python.black-formatter"
     },
-    "python.formatting.provider": "none",
 }
