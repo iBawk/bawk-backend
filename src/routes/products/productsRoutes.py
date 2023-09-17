@@ -51,7 +51,7 @@ def getById(
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
 
 
-@productRoutes.get("", summary="Busca todos os produtos pelo owner_id.")
+@productRoutes.get("", summary="Busca todos os produtos do usuario logado.")
 def getAll(user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     product_controller = productController(db)
 
