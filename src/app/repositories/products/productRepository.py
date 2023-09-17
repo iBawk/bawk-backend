@@ -26,3 +26,6 @@ class ProductRepository:
         self.db.delete(product)
         self.db.commit()
         return product
+
+    def find_products_by_owner_id(self, owner_id: str):
+        return self.db.query(ProductModel).filter_by(owner_id=owner_id).all()
