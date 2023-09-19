@@ -99,15 +99,17 @@ class ProductModel(Base):
     status = Column('status', Integer, default=1)
     markdown = Column('markdown', Text, nullable=False)
     created_at = Column('created_at', String, nullable=False)
+    # todo: adicionar relacionamento com a tabela de categorias depois
+    category = Column('category', String, nullable=False)
 
     sallerInName = Column('sallerName', String, nullable=False)
     sallerInEmail = Column('sallerEmail', String, nullable=False)
     sallerInPhone = Column('sallerPhone', String, nullable=False)
 
-    category_id = Column('category_id', Integer, ForeignKey('categories.id'))
+    # category_id = Column('category_id', Integer, ForeignKey('categories.id'))
 
     user = relationship("UserModel", back_populates="products")
-    category = relationship("CategoryModel", back_populates="products")
+    # category = relationship("CategoryModel", back_populates="products")
 
 
 class CategoryModel(Base):
@@ -116,4 +118,4 @@ class CategoryModel(Base):
     id = Column('id', String, primary_key=True, nullable=False)
     name = Column('name', String, nullable=False)
 
-    products = relationship("ProductModel", back_populates="category")
+    # products = relationship("ProductModel", back_populates="category")

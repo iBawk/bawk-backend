@@ -47,7 +47,7 @@ class UserController:
             print(e)
             raise e
 
-    def update_user(self, id, data: UserUpdateSchema):
+    def update_user(self, id: str, data: UserUpdateSchema):
         try:
             return self.update_user_service.execute(id, data)
         except Exception as e:

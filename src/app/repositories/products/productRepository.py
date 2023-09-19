@@ -1,5 +1,6 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import DatabaseError
 
 from db.models import ProductModel
 from lib.depends import get_db_Session
@@ -29,3 +30,14 @@ class ProductRepository:
 
     def find_products_by_owner_id(self, owner_id: str):
         return self.db.query(ProductModel).filter_by(owner_id=owner_id).all()
+    
+    def update_product(self, newProduct: ProductModel):
+        try:
+            self.db.add(newProduct)
+            self.db.commit()
+            self.db.refresh(newProduct)
+
+            return newProduct
+        except DatabaseError as e:
+            print(e)
+            raise (e)
