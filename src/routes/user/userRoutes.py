@@ -13,7 +13,7 @@ from lib.depends import get_db_Session
 userRoutes = APIRouter()
 
 
-@userRoutes.post('/register', summary="Cadastro de usuario.")
+@userRoutes.post('', summary="Cadastro de usuario.")
 def createUser(credentials: UserRegister, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
@@ -27,7 +27,7 @@ def createUser(credentials: UserRegister, db: Session = Depends(get_db_Session))
         )
 
 
-@userRoutes.get('/login', summary="Realiza login.", response_model=LoginResponse)
+@userRoutes.post('/login', summary="Realiza login.", response_model=LoginResponse)
 def login(credentials: UserLogin, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
