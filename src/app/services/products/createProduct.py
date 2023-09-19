@@ -30,6 +30,7 @@ class CreateProductService:
                 owner_id=user.id,
                 name=product.name,
                 description=product.description,
+                category=product.category,
                 format=product.format,
                 status=product.status,
                 markdown=product.markdown,

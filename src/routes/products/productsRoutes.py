@@ -25,19 +25,6 @@ def create(
         return e
 
 
-@productRoutes.delete("", summary="Delete um produto.")
-def delete(
-    id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)
-):
-    product_controller = productController(db, user)
-
-    try:
-        return product_controller.deleteProduct(id)
-    except Exception as e:
-        print(e)
-        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
-
-
 @productRoutes.get("/{id}", summary="Busca um produto pelo id.")
 def getById(
     id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)
@@ -70,3 +57,16 @@ def update(id: str, data: Product, user: UserModel = Depends(verifyJWT), db: Ses
         return product_controller.update(id, data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+@productRoutes.delete("", summary="Delete um produto.")
+def delete(
+    id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)
+):
+    product_controller = productController(db, user)
+
+    try:
+        return product_controller.deleteProduct(id)
+    except Exception as e:
+        print(e)
+        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
