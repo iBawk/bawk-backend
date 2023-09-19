@@ -56,7 +56,7 @@ def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Sessio
         )
 
 
-@userRoutes.get('/{id}', summary="Busca usuario pelo id.")
+@userRoutes.get('/id={id}', summary="Busca usuario pelo id.")
 def getUserByID(id: str, db: Session = Depends(get_db_Session), user: UserModel = Depends(verifyJWT)):
     user_controller = UserController(db)
 
