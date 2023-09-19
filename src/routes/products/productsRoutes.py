@@ -60,15 +60,13 @@ def getAll(user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Se
     except Exception as e:
         print(e)
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
-    
+
+
 @productRoutes.put("/update/{id}", summary="Atualiza informações do produto")
-def update(id: str, product_data: Product, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
+def update(id: str, data: Product, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     product_controller = productController(db)
 
     try:
-        updated_product = product_controller.update(id, product_data)
-        if not updated_product:
-            raise HTTPException(status_code=404, detail=f"Produto com ID {id} não encontrado")
-        return updated_product
+        return product_controller.update(id, data)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

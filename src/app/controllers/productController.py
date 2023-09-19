@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 
+from app.schemas.productSchema import Product
 from app.services.products.createProduct import CreateProductService
 from app.services.products.deleteProduct import DeleteProductService
-from app.services.products.findProductById import FindByIdProductService
 from app.services.products.findAllProductUser import FindAllProductUserService
+from app.services.products.findProductById import FindByIdProductService
 from app.services.products.updateProduct import UpdateProductService
-from app.schemas.productSchema import Product
 from db.models import UserModel
 
 
@@ -45,10 +45,10 @@ class productController:
         except Exception as e:
             print(e)
             raise e
-    
-    def update(self, productId, Product: Product):
+
+    def update(self, id: str, data: Product):
         try:
-            return self.update_service.execute(productId, Product)
+            return self.update_service.execute(id, data)
         except Exception as e:
             print(e)
             raise e

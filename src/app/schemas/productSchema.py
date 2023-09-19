@@ -1,6 +1,7 @@
-from pydantic import BaseModel, validator
-from utils.enum import ProductStatus
 from fastapi import HTTPException, status
+from pydantic import BaseModel, validator
+
+from utils.enum import ProductStatus
 
 
 class Product(BaseModel):
