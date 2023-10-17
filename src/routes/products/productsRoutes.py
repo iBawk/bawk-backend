@@ -132,6 +132,9 @@ def get_product_image(product_id: str):
         base_dir = "images/product/"
         id_str = str(product_id)
         path_image_dir = os.path.join(base_dir, id_str)
+        
+        if not os.path.exists(os.path.join(path_image_dir, "productPhoto.png")):
+            raise Exception("O produto não possui imagem.")
                         
         full_image_path = os.path.join(cwd.decode('utf-8'), path_image_dir, "productPhoto.png")
 
