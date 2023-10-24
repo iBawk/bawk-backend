@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.controllers.productController import productController
 from app.middlewares.verifyJWT import verifyJWT
-from app.schemas.productSchema import Product
+from app.schemas.products.productSchema import Product
 from db.models import UserModel
 from lib.depends import get_db_Session
 

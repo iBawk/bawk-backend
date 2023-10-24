@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.schemas.productSchema import Product
+from app.schemas.products.productSchema import Product
 from app.services.products.createProduct import CreateProductService
 from app.services.products.deleteProduct import DeleteProductService
 from app.services.products.findAllProductUser import FindAllProductUserService

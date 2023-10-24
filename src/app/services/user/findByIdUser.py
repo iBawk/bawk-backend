@@ -9,9 +9,9 @@ class FindByIdUserService:
         self.db = db
         self.user_repository = UserRepository(db)
 
-    def execute(self, idToFind: str):
+    def execute(self, user_id: str):
         try:
-            user = self.user_repository.get_user_by_id(idSearch=idToFind)
+            user = self.user_repository.get_user_by_id(user_id)
 
             if not user:
                 return HTTPException(

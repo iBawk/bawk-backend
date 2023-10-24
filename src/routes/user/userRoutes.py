@@ -3,10 +3,12 @@ from sqlalchemy.orm import Session
 
 from app.controllers.userController import UserController
 from app.middlewares.verifyJWT import verifyJWT
-from app.schemas.LoginResponseSchema import LoginResponse
-from app.schemas.userLoginSchema import UserLogin
-from app.schemas.userRegisterSchema import UserRegister
-from app.schemas.userUpdateSchema import UserUpdateSchema
+from app.schemas.user.UserLoginResponseSchema import LoginResponse
+from app.schemas.user.UserLoginSchema import UserLogin
+from app.schemas.user.UserRegisterResponseSchema import \
+    UserRegisterResponseSchema
+from app.schemas.user.UserRegisterSchema import UserRegister
+from app.schemas.user.UserUpdateSchema import UserUpdateSchema
 from db.models import UserModel
 from lib.depends import get_db_Session
 
@@ -57,11 +59,11 @@ def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Sessio
 
 
 @userRoutes.get('/id={id}', summary="Busca usuario pelo id.")
-def getUserByID(id: str, db: Session = Depends(get_db_Session), user: UserModel = Depends(verifyJWT)):
+def getUserByID(user_id: str, db: Session = Depends(get_db_Session), user: UserModel = Depends(verifyJWT)):
     user_controller = UserController(db)
 
     try:
-        return user_controller.find_by_id(id)
+        return user_controller.find_by_id(user_id)
     except Exception as e:
         print(e)
         return HTTPException(

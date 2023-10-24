@@ -1,6 +1,7 @@
 import re
-from pydantic import BaseModel, validator
+
 from fastapi import HTTPException, status
+from pydantic import BaseModel, validator
 
 
 class UserLogin(BaseModel):

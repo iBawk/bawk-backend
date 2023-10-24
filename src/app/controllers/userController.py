@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from sqlalchemy.orm import Session
 
-from app.schemas.userUpdateSchema import UserUpdateSchema
+from app.schemas.user.UserUpdateSchema import UserUpdateSchema
 from app.services.auth.authenticateUser import AuthenticateUserService
 from app.services.auth.verifyRefreshToken import VerifyRefreshTokenService
 from app.services.user.createUser import CreateUserServiceV1
@@ -40,15 +40,21 @@ class UserController:
             print(e)
             raise e
 
-    def find_by_id(self, id):
+    def find_by_id(self, user_id: str):
         try:
-            return self.find_by_id_user_service.execute(id)
+            return self.find_by_id_user_service.execute(user_id)
         except Exception as e:
             print(e)
             raise e
 
-    def update_user(self, id: str, data: UserUpdateSchema):
+    def update_user(self, user_id: str, data: UserUpdateSchema):
         try:
-            return self.update_user_service.execute(id, data)
+            return self.update_user_service.execute(user_id, data)
+        except Exception as e:
+            raise e
+        
+    def get_user_image(self, user_id):
+        try:
+            return self.find_by_id_user_service.get_user_image(user_id)
         except Exception as e:
             raise e

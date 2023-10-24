@@ -5,7 +5,7 @@ from app.repositories.user.userAddressRepository import UserAddressRepository
 from app.repositories.user.userIdentificationRepository import \
     UserIdentificationRespository
 from app.repositories.user.userRepository import UserRepository
-from app.schemas.userUpdateSchema import UserUpdateSchema
+from app.schemas.user.UserUpdateSchema import UserUpdateSchema
 
 
 class UpdateUserService:
@@ -15,12 +15,12 @@ class UpdateUserService:
         self.address_repository = UserAddressRepository(db)
         self.ident_repository = UserIdentificationRespository(db)
 
-    def execute(self, idToUpdate: str, data: UserUpdateSchema):
+    def execute(self, user_id: str, data: UserUpdateSchema):
         if not id:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail='Id do usuario não especificado.')
 
-        user_on_db = self.user_repository.get_user_by_id(idSearch=idToUpdate)
+        user_on_db = self.user_repository.get_user_by_id(user_id)
 
         if not user_on_db:
             raise HTTPException(

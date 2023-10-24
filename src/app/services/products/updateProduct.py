@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repositories.products.productRepository import ProductRepository
-from app.schemas.productSchema import Product
+from app.schemas.products.productSchema import Product
 
 
 class UpdateProductService:

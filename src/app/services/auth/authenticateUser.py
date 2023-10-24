@@ -38,7 +38,6 @@ class AuthenticateUserService:
             'name': user_on_db.name,
             'email': user_on_db.email,
             'phone': user_on_db.phone,
-            'photo': user_on_db.photo,
             'isUpdated': user_on_db.isUpdated,
             'emailVerified': user_on_db.emailVerified,
             'preferences': {

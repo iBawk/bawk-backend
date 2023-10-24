@@ -27,10 +27,10 @@ class UserRepository:
             print(e)
             raise e
 
-    def get_user_by_id(self, idSearch: str):
+    def get_user_by_id(self, user_id: str):
         try:
             user = self.db.query(UserModel).filter(
-                UserModel.id == idSearch).first()
+                UserModel.id == user_id).first()
             return user
         except DatabaseError as e:
             print(e)
@@ -43,6 +43,15 @@ class UserRepository:
             self.db.refresh(newUser)
 
             return newUser
+        except DatabaseError as e:
+            print(e)
+            raise (e)
+        
+    def get_user_image_profile(self, user_id:str):
+        try:
+            user = self.db.query(UserModel).filter(
+                UserModel.id == user_id).first()
+            return user.photo
         except DatabaseError as e:
             print(e)
             raise (e)
