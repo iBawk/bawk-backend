@@ -15,7 +15,7 @@ from lib.depends import get_db_Session
 userRoutes = APIRouter()
 
 
-@userRoutes.post('', summary="Cadastro de usuario.")
+@userRoutes.post('', summary="Cadastro de usuario.", response_model=UserRegisterResponseSchema)
 def createUser(credentials: UserRegister, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
