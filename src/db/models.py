@@ -41,9 +41,9 @@ class UserModel(Base):
                 'phone': self.phone,
                 'isUpdated': self.isUpdated,
                 'emailVerified': self.emailVerified,
-            },
-            'address': self.address,
-            'identification': self.identification
+                'address': self.address,
+                'identification': self.identification
+            }
         }
 
         return user_dict

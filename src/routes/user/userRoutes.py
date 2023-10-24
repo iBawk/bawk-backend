@@ -3,11 +3,14 @@ from sqlalchemy.orm import Session
 
 from app.controllers.userController import UserController
 from app.middlewares.verifyJWT import verifyJWT
+from app.schemas.user.UserFindByIdResponseSchema import \
+    UserFindByIdResponseSchema
 from app.schemas.user.UserLoginResponseSchema import LoginResponse
 from app.schemas.user.UserLoginSchema import UserLogin
 from app.schemas.user.UserRegisterResponseSchema import \
     UserRegisterResponseSchema
 from app.schemas.user.UserRegisterSchema import UserRegister
+from app.schemas.user.UserUpdateResponseSchema import UserUpdateResponseSchema
 from app.schemas.user.UserUpdateSchema import UserUpdateSchema
 from db.models import UserModel
 from lib.depends import get_db_Session
@@ -44,7 +47,7 @@ def login(credentials: UserLogin, db: Session = Depends(get_db_Session)):
 
 
 @userRoutes.get('/refresh-token',
-                summary="Verifica validade do refresh token.")
+                summary="Verifica validade do refresh token.", response_model=LoginResponse)
 def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Session)):
     user_controller = UserController(db)
 
@@ -58,7 +61,7 @@ def refresh_access_token(refresh_token: str, db: Session = Depends(get_db_Sessio
         )
 
 
-@userRoutes.get('/id={id}', summary="Busca usuario pelo id.")
+@userRoutes.get('/id={user_id}', summary="Busca usuario pelo id.", response_model=UserFindByIdResponseSchema)
 def getUserByID(user_id: str, db: Session = Depends(get_db_Session), user: UserModel = Depends(verifyJWT)):
     user_controller = UserController(db)
 
@@ -72,12 +75,12 @@ def getUserByID(user_id: str, db: Session = Depends(get_db_Session), user: UserM
         )
 
 
-@userRoutes.get("/me", summary="Devolve usuário logado através do token.")
+@userRoutes.get("/me", summary="Devolve usuário logado através do token.", response_model=UserFindByIdResponseSchema)
 def getUserByToken(user: UserModel = Depends(verifyJWT)):
-    return {'loggedUserInfo': user.as_dict()}
+    return user.as_dict()
 
 
-@userRoutes.put("/update", summary="Atualiza as informações do usuário.")
+@userRoutes.put("/update", summary="Atualiza as informações do usuário.", response_model=UserUpdateResponseSchema)
 def updateUser(
         data: UserUpdateSchema,
         db: Session = Depends(get_db_Session),

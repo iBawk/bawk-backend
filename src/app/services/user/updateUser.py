@@ -63,8 +63,6 @@ class UpdateUserService:
             self.ident_repository.update_ident(
                 user_identification_on_db)
 
-            return {
-                'user': user_on_db.as_dict()
-            }
+            return user_on_db.as_dict()
         except Exception as e:
             raise e

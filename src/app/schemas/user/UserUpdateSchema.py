@@ -1,5 +1,3 @@
-from datetime import date
-
 from pydantic import BaseModel
 
 
@@ -8,7 +6,6 @@ class User(BaseModel):
     email: str
     isUpdated: bool
     phone: str
-    photo: str
     emailVerified: bool
 
 
@@ -23,7 +20,7 @@ class Address(BaseModel):
 
 
 class Identification(BaseModel):
-    birthDate: date
+    birthDate: str
     document: str
     nationality: str
 

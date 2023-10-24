@@ -29,5 +29,5 @@ class User(BaseModel):
     identification: Identification
 
 
-class UserRegisterResponseSchema(BaseModel):
+class UserFindByIdResponseSchema(BaseModel):
     user: User
