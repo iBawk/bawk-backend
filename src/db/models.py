@@ -108,12 +108,17 @@ class ProductModel(Base):
 
     user = relationship("UserModel", back_populates="products")
     # category = relationship("CategoryModel", back_populates="products")
-
-
-class CategoryModel(Base):
-    __tablename__ = 'categories'
-
+    
+class Offer(Base):
+    __tablename__ = 'offers'
+    
     id = Column('id', String, primary_key=True, nullable=False)
-    name = Column('name', String, nullable=False)
-
-    # products = relationship("ProductModel", back_populates="category")
+    price = Column('price', Integer, nullable=False)
+    marketplace = Column('marketplace', Boolean, nullable=False, default=0)
+    status = Column('status', Boolean, nullable=False, default=1)
+    
+    product_id = Column('product_id', String, ForeignKey('products.id'))
+    created_at = Column('created_at', String, nullable=False)
+    
+    product = relationship("ProductModel", back_populates="offers")
+    
