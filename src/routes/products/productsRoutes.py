@@ -2,7 +2,6 @@ import os
 
 from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from fastapi.responses import FileResponse
-from PIL import Image
 from sqlalchemy.orm import Session
 
 from app.controllers.productController import productController
@@ -80,8 +79,6 @@ def delete(
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
 
 
-
-
 @productRoutes.post("/image/{product_id}", summary="Upload imagem do produto.")
 def upload_product_image(product_id: str, file: UploadFile = File(...)):
     try:
@@ -117,7 +114,7 @@ def upload_product_image(product_id: str, file: UploadFile = File(...)):
             f.flush()
 
         # Use FileResponse para retornar o arquivo
-        return FileResponse(full_image_path, media_type=f'image/png')
+        return FileResponse(full_image_path, media_type='image/png')
     except Exception as e:
         print(e)
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
