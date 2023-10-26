@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.controllers.productController import productController
 from app.middlewares.verifyJWT import verifyJWT
-from app.schemas.products.productSchema import Product
+from app.schemas.products.ProductCreateSchema import ProductCreateSchema
 from db.models import UserModel
 from lib.depends import get_db_Session
 
@@ -15,7 +15,7 @@ productRoutes = APIRouter()
 
 @productRoutes.post("", summary="Cria um produto.")
 def create(
-    product: Product,
+    product: ProductCreateSchema,
     user: UserModel = Depends(verifyJWT),
     db: Session = Depends(get_db_Session),
 ):
@@ -55,7 +55,7 @@ def getAll(user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Se
 @productRoutes.put("/update/{product_id}", summary="Atualiza informações do produto")
 def update(
     product_id: str,
-    data: Product,
+    data: ProductCreateSchema,
     db: Session = Depends(get_db_Session),
 ):
     product_controller = productController(db)

@@ -1,13 +1,11 @@
-from fastapi import Depends
-from sqlalchemy.orm import Session
 from sqlalchemy.exc import DatabaseError
+from sqlalchemy.orm import Session
 
 from db.models import ProductModel
-from lib.depends import get_db_Session
 
 
 class ProductRepository:
-    def __init__(self, db: Session = Depends(get_db_Session)):
+    def __init__(self, db: Session):
         self.db = db
 
     def create(self, product: ProductModel):
@@ -20,8 +18,8 @@ class ProductRepository:
             self.db.rollback()
             raise e
 
-    def find_by_id(self, id: str):
-        return self.db.query(ProductModel).filter_by(id=id).first()
+    def find_by_id(self, product_id: str):
+        return self.db.query(ProductModel).filter_by(id=product_id).first()
 
     def delete(self, product: ProductModel):
         self.db.delete(product)
