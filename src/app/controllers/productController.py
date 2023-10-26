@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from app.schemas.products.productSchema import Product
+from app.schemas.products.ProductCreateSchema import ProductCreateSchema
 from app.services.products.createProduct import CreateProductService
 from app.services.products.deleteProduct import DeleteProductService
 from app.services.products.findAllProductUser import FindAllProductUserService
@@ -46,9 +46,9 @@ class productController:
             print(e)
             raise e
 
-    def update(self, id: str, data: Product):
+    def update(self, product_id: str, data: ProductCreateSchema):
         try:
-            return self.update_service.execute(id, data)
+            return self.update_service.execute(product_id, data)
         except Exception as e:
             print(e)
             raise e

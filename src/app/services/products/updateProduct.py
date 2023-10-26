@@ -2,7 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repositories.products.productRepository import ProductRepository
-from app.schemas.products.productSchema import Product
+from app.schemas.products.ProductCreateSchema import ProductCreateSchema
 
 
 class UpdateProductService:
@@ -10,7 +10,7 @@ class UpdateProductService:
         self.db = db
         self.product_repository = ProductRepository(db)
 
-    def execute(self, product_id: str, product_data: Product):
+    def execute(self, product_id: str, product_data: ProductCreateSchema):
         product = self.product_repository.find_by_id(id=product_id)
         if not product:
             raise HTTPException(
@@ -26,7 +26,7 @@ class UpdateProductService:
         product.sallerInEmail = product_data.sallerInEmail or product.sallerInEmail
         product.sallerInName = product_data.sallerInName or product.sallerInName
         product.sallerInPhone = product_data.sallerInPhone or product.sallerInPhone
-        product.status = product_data.status or product.status
+        product.situation = product_data.situation or product.situation
 
         newProduct = self.product_repository.update_product(product)
 

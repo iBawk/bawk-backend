@@ -5,7 +5,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repositories.products.productRepository import ProductRepository
-from app.schemas.products.productSchema import Product
+from app.schemas.products.ProductCreateSchema import ProductCreateSchema
 from db.models import ProductModel, UserModel
 
 
@@ -14,7 +14,7 @@ class CreateProductService:
         self.db = db
         self.product_repository = ProductRepository(db)
 
-    def execute(self, product: Product, user: UserModel):
+    def execute(self, product: ProductCreateSchema, user: UserModel):
 
         product_id = str(uuid.uuid4())
         id_existis = self.product_repository.find_by_id(product_id)
@@ -32,7 +32,7 @@ class CreateProductService:
                 description=product.description,
                 category=product.category,
                 format=product.format,
-                status=product.status,
+                situation=product.situation,
                 markdown=product.markdown,
                 sallerInName=product.sallerInName,
                 sallerInEmail=product.sallerInEmail,

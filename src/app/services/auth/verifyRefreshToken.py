@@ -1,13 +1,12 @@
-from fastapi import Depends, HTTPException
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.repositories.user.userRepository import UserRepository
 from app.services.auth.tokenService import TokenService
-from lib.depends import get_db_Session
 
 
 class VerifyRefreshTokenService:
-    def __init__(self, db: Session = Depends(get_db_Session)):
+    def __init__(self, db: Session):
         self.user_repository = UserRepository(db)
         self.token_service = TokenService()
 

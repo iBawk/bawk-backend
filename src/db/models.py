@@ -1,5 +1,4 @@
-from sqlalchemy import (Boolean, Column, ForeignKey, Integer, LargeBinary,
-                        String, Text)
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import relationship
 
 try:
@@ -94,30 +93,28 @@ class ProductModel(Base):
     name = Column('name', String, nullable=False)
     description = Column('description', String, nullable=False)
     format = Column('format', String, nullable=False)
-    status = Column('status', Integer, default=1)
+    situation = Column('situation', Integer, default=1)
     markdown = Column('markdown', Text, nullable=False)
     created_at = Column('created_at', String, nullable=False)
-    # todo: adicionar relacionamento com a tabela de categorias depois
     category = Column('category', String, nullable=False)
 
     sallerInName = Column('sallerName', String, nullable=False)
     sallerInEmail = Column('sallerEmail', String, nullable=False)
     sallerInPhone = Column('sallerPhone', String, nullable=False)
-
-    # category_id = Column('category_id', Integer, ForeignKey('categories.id'))
-
-    user = relationship("UserModel", back_populates="products")
-    # category = relationship("CategoryModel", back_populates="products")
     
-class Offer(Base):
+    user = relationship("UserModel", back_populates="products")
+    offers = relationship("OfferModel", back_populates="product")
+    
+class OfferModel(Base):
     __tablename__ = 'offers'
     
     id = Column('id', String, primary_key=True, nullable=False)
     price = Column('price', Integer, nullable=False)
     marketplace = Column('marketplace', Boolean, nullable=False, default=0)
-    status = Column('status', Boolean, nullable=False, default=1)
+    situation = Column('situation', Integer, nullable=False, default=1)
     
     product_id = Column('product_id', String, ForeignKey('products.id'))
+    
     created_at = Column('created_at', String, nullable=False)
     
     product = relationship("ProductModel", back_populates="offers")
