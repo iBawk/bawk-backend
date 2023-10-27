@@ -11,7 +11,5 @@ class GetOffersPrpductService:
     def execute(self, product_id):
             
             offers = self.offer_repository.find_by_product_id(product_id)
-            if not offers:
-                raise Exception("Não existe oferta para este produto.")
             
             return offers
