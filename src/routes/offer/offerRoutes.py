@@ -19,3 +19,11 @@ def create(offer: CreateOfferSchema, user: UserModel = Depends(verifyJWT), db: S
         return e
     
     
+@offerRoutes.get("/{offer_id}", summary="Busca uma oferta pelo id.")
+def getById(offer_id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
+    offer_Controller = offerController(db)
+    
+    try:
+        return offer_Controller.getOfferById(offer_id)
+    except Exception as e:
+        return e

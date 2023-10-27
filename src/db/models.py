@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Text
+from sqlalchemy import (Boolean, Column, ForeignKey, Integer, Numeric, String,
+                        Text)
 from sqlalchemy.orm import relationship
 
 try:
@@ -109,7 +110,7 @@ class OfferModel(Base):
     __tablename__ = 'offers'
     
     id = Column('id', String, primary_key=True, nullable=False)
-    price = Column('price', Integer, nullable=False)
+    price = Column('price', Numeric(precision=10, scale=2), nullable=False)
     marketplace = Column('marketplace', Boolean, nullable=False, default=0)
     situation = Column('situation', Integer, nullable=False, default=1)
     
