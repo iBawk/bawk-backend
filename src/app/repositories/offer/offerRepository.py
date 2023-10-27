@@ -39,3 +39,6 @@ class OfferRepository:
         except DatabaseError as e:
             print(e)
             raise (e)
+        
+    def find_by_product_id(self, product_id: str):
+        return self.db.query(OfferModel).filter_by(product_id=product_id).all()
