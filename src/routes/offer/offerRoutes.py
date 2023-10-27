@@ -16,7 +16,8 @@ def create(offer: CreateOfferSchema, user: UserModel = Depends(verifyJWT), db: S
     try:
         return offer_Controller.createOffer(offer)
     except Exception as e:
-        return e
+        print(e)
+        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
     
     
 @offerRoutes.get("/{offer_id}", summary="Busca uma oferta pelo id.")
@@ -26,4 +27,5 @@ def getById(offer_id: str, user: UserModel = Depends(verifyJWT), db: Session = D
     try:
         return offer_Controller.getOfferById(offer_id)
     except Exception as e:
-        return e
+        print(e)
+        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)

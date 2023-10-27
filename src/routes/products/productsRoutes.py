@@ -121,7 +121,6 @@ def upload_product_image(product_id: str, file: UploadFile = File(...)):
 
 
 
-
 @productRoutes.get("/image/{product_id}", summary="Get imagem do produto.")
 def get_product_image(product_id: str):
     try:
@@ -136,6 +135,17 @@ def get_product_image(product_id: str):
         full_image_path = os.path.join(cwd.decode('utf-8'), path_image_dir, "productPhoto.png")
 
         return FileResponse(full_image_path, media_type='image/png')
+    except Exception as e:
+        print(e)
+        return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
+
+
+@productRoutes.get("/{product_id}/offers", summary="Busca as ofertas de um produto.")
+def getOffers(product_id: str, db: Session = Depends(get_db_Session)):
+    product_controller = productController(db)
+
+    try:
+        return product_controller.getOffers(product_id)
     except Exception as e:
         print(e)
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
