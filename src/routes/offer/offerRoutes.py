@@ -12,10 +12,10 @@ offerRoutes = APIRouter()
 
 @offerRoutes.post("", summary="Cria uma oferta.")
 def create(offer: CreateOfferSchema, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
-    offer_Controller = offerController(db)
+    offer_controller = offerController(db)
     
     try:
-        return offer_Controller.createOffer(offer)
+        return offer_controller.createOffer(offer)
     except Exception as e:
         print(e)
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
@@ -23,23 +23,38 @@ def create(offer: CreateOfferSchema, user: UserModel = Depends(verifyJWT), db: S
     
 @offerRoutes.get("/{offer_id}", summary="Busca uma oferta pelo id.")
 def getById(offer_id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
-    offer_Controller = offerController(db)
+    offer_controller = offerController(db)
     
     try:
-        return offer_Controller.getOfferById(offer_id)
+        return offer_controller.getOfferById(offer_id)
     except Exception as e:
         print(e)
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
     
 @offerRoutes.put("/{offer_id}", summary="Atualiza uma oferta pelo id.")
 def update(offer_id: str, offer: UpdateOfferSchema, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
-    offer_Controller = offerController(db)
+    offer_controller = offerController(db)
     
     try:
-        return offer_Controller.updateOffer(offer_id, offer)
+        return offer_controller.updateOffer(offer_id, offer)
     except ConnectionAbortedError as e:
         print(e)
         return HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=e
         )
+        
+@offerRoutes.get("/marketplace", summary="Busca todas as ofertas.")
+def marketpalceOffers(user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
+    offer_controller = offerController(db)
+    
+    try:
+        return offer_controller.marketplaceOffers()
+    except ConnectionAbortedError as e:
+        print(e)
+        return HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=e
+        )
+    
+    
