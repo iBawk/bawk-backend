@@ -44,12 +44,12 @@ def update(offer_id: str, offer: UpdateOfferSchema, user: UserModel = Depends(ve
             detail=e
         )
         
-@offerRoutes.get("/marketplace", summary="Busca todas as ofertas.")
+@offerRoutes.get("/marketplace/all", summary="Busca todas as ofertas disponiveis para o marketplace.")
 def marketpalceOffers(page: int = 1, take: int = 10, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     offer_controller = offerController(db)
     
     try:
-        return offer_controller.marketplaceOffers(page or 1, take or 10)
+        return offer_controller.marketplaceOffers(page, take)
     except Exception as e:
         print(e)
         return HTTPException(

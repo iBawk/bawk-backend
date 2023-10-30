@@ -16,11 +16,9 @@ class GetOfferByIdService:
         
         offer = self.offer_repository.find_by_id(offer_id)
         if not offer:
-            raise Exception("Não existe oferta com este id.")
+            return {}
         
         product = self.product_repository.find_by_id(offer.product_id)
-        if not product:
-            raise Exception("Não existe produto com este id.")
         
         saller = self.user_repository.get_user_by_id(product.owner_id)
         

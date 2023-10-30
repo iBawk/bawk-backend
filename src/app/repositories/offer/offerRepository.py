@@ -1,5 +1,5 @@
 from sqlalchemy.exc import DatabaseError
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, relationship
 
 from db.models import OfferModel
 
@@ -43,5 +43,5 @@ class OfferRepository:
     def find_by_product_id(self, product_id: str):
         return self.db.query(OfferModel).filter_by(product_id=product_id).all()
     
-    def findMarketplaceOffers(self, take, page):
-        return self.db.query(OfferModel).filter(OfferModel.marketplace is True).limit(take).offset((page - 1) * take).all();
+    def findMarketplaceOffers(self, page, take):
+        return self.db.query(OfferModel).filter(OfferModel.marketplace == 0).limit(take).offset((page - 1) * take).all()
