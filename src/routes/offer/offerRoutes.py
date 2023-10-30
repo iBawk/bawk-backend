@@ -45,16 +45,16 @@ def update(offer_id: str, offer: UpdateOfferSchema, user: UserModel = Depends(ve
         )
         
 @offerRoutes.get("/marketplace", summary="Busca todas as ofertas.")
-def marketpalceOffers(user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
+def marketpalceOffers(page: int = 1, take: int = 10, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     offer_controller = offerController(db)
     
     try:
-        return offer_controller.marketplaceOffers()
-    except ConnectionAbortedError as e:
+        return offer_controller.marketplaceOffers(page or 1, take or 10)
+    except Exception as e:
         print(e)
         return HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=e
+            detail=str(e)
         )
     
     
