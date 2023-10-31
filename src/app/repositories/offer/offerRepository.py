@@ -44,7 +44,7 @@ class OfferRepository:
         return self.db.query(OfferModel).filter_by(product_id=product_id).all()
     
     def findMarketplaceOffers(self, page, take):
-        return self.db.query(OfferModel).filter(OfferModel.marketplace == 1).limit(take).offset((page - 1) * take).all()
+        return self.db.query(OfferModel).filter(OfferModel.marketplace == 0).limit(take).offset((page - 1) * take).all()
     
     def countMarketplaceOffers(self):
-        return self.db.query(OfferModel).filter(OfferModel.marketplace == 1).count()
+        return self.db.query(OfferModel).filter(OfferModel.marketplace == 0).count()

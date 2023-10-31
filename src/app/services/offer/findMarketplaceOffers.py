@@ -1,5 +1,6 @@
 from app.repositories.offer.offerRepository import OfferRepository
 from app.repositories.products.productRepository import ProductRepository
+from utils.pageNumberCalc import calculate_number_of_pages
 
 
 class FindMarketplaceOffers:
@@ -15,7 +16,9 @@ class FindMarketplaceOffers:
             product = self.product_repository.find_by_id(offer.product_id)
             offer.product = product
             
-        pageCount = self.offer_repository.countMarketplaceOffers()
+        offersCount = self.offer_repository.countMarketplaceOffers()
+        
+        pageCount = calculate_number_of_pages(offersCount, take)
         
         json = {
             "offers": offers,
