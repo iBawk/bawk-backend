@@ -9,7 +9,7 @@ class DeleteProductService:
         self.product_repository = ProductRepository(db)
 
     def execute(self, idToSerach: str):
-        product_to_delete = self.product_repository.find_by_id(id=idToSerach)
+        product_to_delete = self.product_repository.find_by_id(product_id=idToSerach)
         if not product_to_delete:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Este produto não existe.")

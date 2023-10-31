@@ -70,7 +70,7 @@ def update(
 def delete(
     product_id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)
 ):
-    product_controller = productController(db, user)
+    product_controller = productController(db)
 
     try:
         return product_controller.deleteProduct(product_id)
