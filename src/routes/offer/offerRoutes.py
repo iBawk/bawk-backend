@@ -22,7 +22,7 @@ def create(offer: CreateOfferSchema, user: UserModel = Depends(verifyJWT), db: S
     
     
 @offerRoutes.get("/{offer_id}", summary="Busca uma oferta pelo id.")
-def getById(offer_id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
+def getById(offer_id: str, db: Session = Depends(get_db_Session)):
     offer_controller = offerController(db)
     
     try:
