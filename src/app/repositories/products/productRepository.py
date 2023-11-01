@@ -22,12 +22,12 @@ class ProductRepository:
         return self.db.query(ProductModel).filter_by(id=product_id).first()
 
     def delete(self, product: ProductModel):
-        self.db.delete(product)
+        self.db.add(product)
         self.db.commit()
         return product
 
     def find_products_by_owner_id(self, owner_id: str):
-        return self.db.query(ProductModel).filter_by(owner_id=owner_id).all()
+        return self.db.query(ProductModel).filter_by(owner_id=owner_id).filter(ProductModel.situation == 1).all()
     
     def update_product(self, newProduct: ProductModel):
         try:

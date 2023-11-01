@@ -70,7 +70,7 @@ def update(
 def delete(
     product_id: str, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)
 ):
-    product_controller = productController(db, user)
+    product_controller = productController(db)
 
     try:
         return product_controller.deleteProduct(product_id)
@@ -130,7 +130,7 @@ def get_product_image(product_id: str):
         path_image_dir = os.path.join(base_dir, id_str)
         
         if not os.path.exists(os.path.join(path_image_dir, "productPhoto.png")):
-            raise Exception("O produto não possui imagem.")
+            return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="O produto não possui imagem.")
                         
         full_image_path = os.path.join(cwd.decode('utf-8'), path_image_dir, "productPhoto.png")
 
