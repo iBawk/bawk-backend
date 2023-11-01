@@ -52,7 +52,7 @@ def getAll(user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Se
         return HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=e)
 
 
-@productRoutes.put("/update/{product_id}", summary="Atualiza informações do produto")
+@productRoutes.put("/{product_id}", summary="Atualiza informações do produto")
 def update(
     product_id: str,
     data: ProductCreateSchema,

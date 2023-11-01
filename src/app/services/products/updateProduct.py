@@ -11,7 +11,7 @@ class UpdateProductService:
         self.product_repository = ProductRepository(db)
 
     def execute(self, product_id: str, product_data: ProductCreateSchema):
-        product = self.product_repository.find_by_id(id=product_id)
+        product = self.product_repository.find_by_id(product_id)
         if not product:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
