@@ -1,5 +1,5 @@
 from sqlalchemy.exc import DatabaseError
-from sqlalchemy.orm import Session, relationship
+from sqlalchemy.orm import Session
 
 from db.models import OfferModel
 
@@ -48,3 +48,6 @@ class OfferRepository:
     
     def countMarketplaceOffers(self):
         return self.db.query(OfferModel).filter(OfferModel.marketplace == 0).count()
+    
+    def removeMarketplaceFlag(self, offer_id):
+        self.db.query(OfferModel).filter_by(id=offer_id).update({OfferModel.marketplace: 0})

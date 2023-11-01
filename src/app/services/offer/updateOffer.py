@@ -22,10 +22,7 @@ class UpdateOfferService:
         product_offers = self.offer_repository.find_by_product_id(offer.product_id)
         for product_offer in product_offers:
             if product_offer.marketplace is True and newOfferData.marketplace is True and product_offer.id != offer.id:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Já existe uma oferta para este produto no marketplace, se necessário, remova a oferta ja existente."
-                )
+                self.offer_repository.removeMarketplaceFlag(product_offer.id)
         
         offer.marketplace = newOfferData.marketplace
         offer.situation = newOfferData.situation

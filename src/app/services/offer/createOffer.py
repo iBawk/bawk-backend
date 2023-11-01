@@ -36,10 +36,7 @@ class CreateOfferService:
         product_offers = self.db.query(OfferModel).filter_by(product_id=offer.product_id).all()
         for product_offer in product_offers:
             if product_offer.marketplace is True and offer.marketplace is True:
-                raise HTTPException(
-                    status_code=status.HTTP_400_BAD_REQUEST,
-                    detail="Este produto não pode ter mais de uma oferta no marketplace."
-                )
+                self.offer_repository.removeMarketplaceFlag(product_offer.id)
         
 
         newOffer = self.offer_repository.create(
