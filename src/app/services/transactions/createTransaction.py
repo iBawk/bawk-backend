@@ -25,7 +25,7 @@ class CreateTransactionsService:
         self.offer_repository = OfferRepository(db)
         self.product_repository = ProductRepository(db)
 
-    def execute(self, transaction: TransactionCreateSchema, newUser: UserRegister):
+    def execute(self, transaction: TransactionCreateSchema):
         transaction_id = str(uuid.uuid4())
         id_existis = self.transaction_repository.find_by_id(transaction_id)
         if id_existis:
@@ -48,18 +48,19 @@ class CreateTransactionsService:
 
         offer_price = self.offer_repository.find_price_by_id(transaction.offer_id)
 
-        new_user = self.user_repository.get_user_by_email(transaction.email_buyer)
-        if not new_user:
-            newUser.name = transaction.name_buyer
-            newUser.email = transaction.email_buyer
-            newUser.password = str(uuid.uuid4())
-            self.create_user_service.execute(newUser)
+        user_existis = self.user_repository.get_user_by_email(transaction.email_buyer)
+        if not user_existis:
+            user_register_data = UserRegister(
+            name=transaction.name_buyer,
+            email=transaction.email_buyer,
+            password=str(uuid.uuid4())
+            )
 
-        buyer_id = self.user_repository.get_user_by_email(transaction.email_buyer)
-        wallet = self.user_repository.get_wallet_by_user_id(buyer_id)
-        product_id = self.offer_repository.find_product_id_by_offer_id(
-            transaction.offer_id
-        )
+            user = self.create_user_service.execute(credentials=user_register_data)
+            
+        buyer = self.user_repository.get_user_by_email(transaction.email_buyer)
+        wallet = self.user_repository.get_wallet_by_user_id(buyer.id)
+        product = self.product_repository.find_by_id(offer.product_id)
 
         newTransaction = self.transaction_repository.create(
             TransactionsModel(
@@ -69,11 +70,11 @@ class CreateTransactionsService:
                 situation=1,  # situação 1 APROVADA TRANSACAO
                 transactionDate=datetime.datetime.now(),
                 aproveDate=datetime.datetime.now(),
-                reimbursementDate=" ",  # CAMPO VAZIO, POIS NAO FOI REEMBOLSADA
-                buyer_id=buyer_id,
+                refoundDate="",  # CAMPO VAZIO, POIS NAO FOI REEMBOLSADA
+                buyer_id=buyer.id,
                 wallet_id=wallet,
-                product_id=product_id,
-                paymentMethod_id=transaction.paymentMethod_id,  # ID DE PAGAMENTO
+                product_id=product.id,
+                paymentMethod=transaction.paymentMethod,  # ID DE PAGAMENTO
             )
         )
 

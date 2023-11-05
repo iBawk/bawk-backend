@@ -73,10 +73,3 @@ class OfferRepository:
             return offer.price
         else:
             return None
-
-    def find_product_id_by_offer_id(self, offer_id: str):
-        offer = self.db.query(OfferModel).filter_by(id=offer_id).first()
-        if offer:
-            return offer.product_id
-        else:
-            return None

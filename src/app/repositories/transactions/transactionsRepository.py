@@ -18,4 +18,5 @@ class TransactionsRepository:
             return transaction
         except Exception as e:
             self.db.rollback()
+            print(e)
             raise e

@@ -5,18 +5,14 @@ from passlib.context import CryptContext
 from sqlalchemy.orm import Session
 
 from app.repositories.user.userAddressRepository import UserAddressRepository
-from app.repositories.user.userIdentificationRepository import (
-    UserIdentificationRespository,
-)
-from app.repositories.user.userPreferencesRepository import UserPreferencesRepository
+from app.repositories.user.userIdentificationRepository import \
+    UserIdentificationRespository
+from app.repositories.user.userPreferencesRepository import \
+    UserPreferencesRepository
 from app.repositories.user.userRepository import UserRepository
-from db.models import (
-    UserAddressModel,
-    UserIdentificationModel,
-    UserModel,
-    UserPreferencesModel,
-    WalletsModel,
-)
+from app.schemas.user.UserRegisterSchema import UserRegister
+from db.models import (UserAddressModel, UserIdentificationModel, UserModel,
+                       UserPreferencesModel, WalletsModel)
 
 
 class CreateUserServiceV1:
@@ -28,7 +24,7 @@ class CreateUserServiceV1:
         self.user_preferences_repository = UserPreferencesRepository(db)
         self.password_hasher = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
 
-    def execute(self, credentials):
+    def execute(self, credentials: UserRegister):
         prev_user = self.user_repository.get_user_by_email(credentials.email)
         if prev_user:
             raise HTTPException(

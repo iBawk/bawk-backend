@@ -122,17 +122,6 @@ class OfferModel(Base):
     transactions = relationship("TransactionsModel", back_populates="offer")
 
 
-class paymentMethodModel(Base):
-    __tablename__ = "paymentMethod"
-
-    id = Column(
-        "id", Integer, primary_key=True, nullable=False, default=0
-    )  # 1 cartão, 2 PIX,
-    method = Column("method", String, nullable=False)
-    
-    transactions = relationship("TransactionsModel", back_populates="paymentMethod")
-
-
 class WalletsModel(Base):
     __tablename__ = "wallets"
 
@@ -159,16 +148,13 @@ class TransactionsModel(Base):
     situation = Column("situation", Integer, nullable=False, default=1)
     transactionDate = Column("transactionDate", String, nullable=False)
     aproveDate = Column("aproveDate", String, nullable=False)
-    reimbursementDate = Column("reimbursementDate", String, default="")
+    refoundDate = Column("refoundDate", String, default="")
+    paymentMethod = Column("paymentMethod", Integer, nullable=True)
 
     buyer_id = Column("buyer_id", String, ForeignKey("users.id"))
     wallet_id = Column("wallet_id", String, ForeignKey("wallets.id"))
     product_id = Column("product_id", String, ForeignKey("products.id"))
-    paymentMethod_id = Column(
-        "paymentMethod_id", Integer, ForeignKey("paymentMethod.id")
-    )
 
     user = relationship("UserModel", back_populates="transactions")
     wallets = relationship("WalletsModel", back_populates="transactions")
-    paymentMethod = relationship("paymentMethodModel", back_populates="transactions")
     offer = relationship("OfferModel", back_populates="transactions")
