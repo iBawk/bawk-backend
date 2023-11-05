@@ -28,7 +28,7 @@ class OfferRepository:
 
     def find_offer_by_product_id(self, product_id: str):
         return self.db.query(OfferModel).filter_by(product_id=product_id).all()
-    
+
     def update_offer(self, newOffer: OfferModel):
         try:
             self.db.add(newOffer)
@@ -39,15 +39,44 @@ class OfferRepository:
         except DatabaseError as e:
             print(e)
             raise (e)
-        
+
     def find_by_product_id(self, product_id: str):
         return self.db.query(OfferModel).filter_by(product_id=product_id).all()
-    
+
     def findMarketplaceOffers(self, page, take):
-        return self.db.query(OfferModel).filter(OfferModel.marketplace == 0).limit(take).offset((page - 1) * take).all()
-    
+        return (
+            self.db.query(OfferModel)
+            .filter(OfferModel.marketplace == 0)
+            .limit(take)
+            .offset((page - 1) * take)
+            .all()
+        )
+
     def countMarketplaceOffers(self):
         return self.db.query(OfferModel).filter(OfferModel.marketplace == 0).count()
-    
+
     def removeMarketplaceFlag(self, offer_id):
-        self.db.query(OfferModel).filter_by(id=offer_id).update({OfferModel.marketplace: 0})
+        self.db.query(OfferModel).filter_by(id=offer_id).update(
+            {OfferModel.marketplace: 0}
+        )
+
+    def find_situation_by_id(self, offer_id: str):
+        offer = self.db.query(OfferModel).filter_by(id=offer_id).first()
+        if offer:
+            return offer.situation
+        else:
+            return None
+
+    def find_price_by_id(self, offer_id: str):
+        offer = self.db.query(OfferModel).filter_by(id=offer_id).first()
+        if offer:
+            return offer.price
+        else:
+            return None
+
+    def find_product_id_by_offer_id(self, offer_id: str):
+        offer = self.db.query(OfferModel).filter_by(id=offer_id).first()
+        if offer:
+            return offer.product_id
+        else:
+            return None
