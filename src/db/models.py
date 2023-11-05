@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, String, Text
+from sqlalchemy import (Boolean, Column, ForeignKey, Integer, Numeric, String,
+                        Text)
 from sqlalchemy.orm import relationship
 
 try:
@@ -28,6 +29,8 @@ class UserModel(Base):
     identification = relationship("UserIdentificationModel", back_populates="user")
     preferences = relationship("UserPreferencesModel", back_populates="user")
     products = relationship("ProductModel", back_populates="user")
+    wallets = relationship("WalletsModel", back_populates="user")
+    transactions = relationship("TransactionsModel", back_populates="user")
 
     def as_dict(self):
         user_dict = {
@@ -115,7 +118,8 @@ class OfferModel(Base):
 
     created_at = Column("created_at", String, nullable=False)
 
-    product = relationship("ProductModel", back_populates="offers")
+    products = relationship("ProductModel", back_populates="offers")
+    transactions = relationship("TransactionsModel", back_populates="offer")
 
 
 class paymentMethodModel(Base):
@@ -125,6 +129,8 @@ class paymentMethodModel(Base):
         "id", Integer, primary_key=True, nullable=False, default=0
     )  # 1 cartão, 2 PIX,
     method = Column("method", String, nullable=False)
+    
+    transactions = relationship("TransactionsModel", back_populates="paymentMethod")
 
 
 class WalletsModel(Base):
@@ -141,6 +147,7 @@ class WalletsModel(Base):
     user_id = Column("user_id", String, ForeignKey("users.id"))
 
     user = relationship("UserModel", back_populates="wallets")
+    transactions = relationship("TransactionsModel", back_populates="wallets")
 
 
 class TransactionsModel(Base):
@@ -162,6 +169,6 @@ class TransactionsModel(Base):
     )
 
     user = relationship("UserModel", back_populates="transactions")
-    wallet = relationship("WalletsModel", back_populates="transactions")
+    wallets = relationship("WalletsModel", back_populates="transactions")
     paymentMethod = relationship("paymentMethodModel", back_populates="transactions")
     offer = relationship("OfferModel", back_populates="transactions")
