@@ -59,8 +59,10 @@ class CreateTransactionsService:
             user = self.create_user_service.execute(credentials=user_register_data)
             
         buyer = self.user_repository.get_user_by_email(transaction.email_buyer)
-        wallet = self.user_repository.get_wallet_by_user_id(buyer.id)
         product = self.product_repository.find_by_id(offer.product_id)
+        
+        saller = self.user_repository.get_user_by_id(product.owner_id)
+        wallet = self.user_repository.get_wallet_by_user_id(saller.id)
 
         newTransaction = self.transaction_repository.create(
             TransactionsModel(
