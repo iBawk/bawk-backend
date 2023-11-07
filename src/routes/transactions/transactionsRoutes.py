@@ -3,8 +3,9 @@ from sqlalchemy.orm import Session
 
 from app.controllers.transactionsController import transactionsController
 from app.middlewares.verifyJWT import verifyJWT
+from app.schemas.transactions.TrasactionCreateSchema import \
+    TransactionCreateSchema
 from db.models import UserModel
-from app.schemas.transactions.TrasactionCreateSchema import TransactionCreateSchema
 from lib.depends import get_db_Session
 
 transactionsRoutes = APIRouter()
@@ -22,9 +23,9 @@ def create(transaction: TransactionCreateSchema, db: Session = Depends(get_db_Se
 
 
 @transactionsRoutes.get(
-    "/purchases/", summary="Busca todas os produtos comprados pelo usuario."
+    "/purchases", summary="Busca todas os produtos comprados pelo usuario."
 )
-def myPurchases(user: UserModel = verifyJWT, db: Session = Depends(get_db_Session)):
+def myPurchases(user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     transactions_controller = transactionsController(db)
 
     try:

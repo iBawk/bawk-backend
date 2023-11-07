@@ -24,7 +24,7 @@ class TransactionsRepository:
     def findTransactionsAproveFromUser(self, buyer_id: str):
         return (
             self.db.query(TransactionsModel)
-            .filter_by(buyer_id=buyer_id)
+            .filter(TransactionsModel.buyer_id == buyer_id)
             .filter(
                 TransactionsModel.situation == 1
             )  # 3 é reembolsado, 1 é aprovado, 2 é aguardando pagamento
