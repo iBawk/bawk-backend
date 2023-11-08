@@ -2,9 +2,8 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.repositories.user.userAddressRepository import UserAddressRepository
-from app.repositories.user.userIdentificationRepository import (
-    UserIdentificationRespository,
-)
+from app.repositories.user.userIdentificationRepository import \
+    UserIdentificationRespository
 from app.repositories.user.userRepository import UserRepository
 from app.schemas.user.UserUpdateSchema import UserUpdateSchema
 
