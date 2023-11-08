@@ -4,12 +4,13 @@ from pydantic import BaseModel
 class Address(BaseModel):
     id: str
     zipCode: str
-    number: int
+    number: str
     city: str
     street: str
     country: str
     complement: str
     state: str
+    district: str
 
 
 class Identification(BaseModel):
@@ -17,7 +18,9 @@ class Identification(BaseModel):
     birthDate: str
     document: str
     nationality: str
-    
+    language: str
+
+
 class User(BaseModel):
     id: str
     name: str

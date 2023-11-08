@@ -1,5 +1,4 @@
-from sqlalchemy import (Boolean, Column, ForeignKey, Integer, Numeric, String,
-                        Text)
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, Numeric, String, Text
 from sqlalchemy.orm import relationship
 
 try:
@@ -56,10 +55,11 @@ class UserAddressModel(Base):
     country = Column("country", String, default="")
     zipCode = Column("zipCode", String, default="")
     street = Column("street", String, default="")
-    number = Column("number", Integer, default=0)
+    number = Column("number", String, default=0)
     complement = Column("complement", String, default="")
     city = Column("city", String, default="")
     state = Column("state", String, default="")
+    district = Column("district", String, default="")
 
     user = relationship("UserModel", back_populates="address")
 
@@ -71,6 +71,7 @@ class UserIdentificationModel(Base):
     nationality = Column("nationality", String, default="")
     document = Column("document", String, default="")
     birthDate = Column("birthDate", String, default="")
+    language = Column("language", String, default="")
 
     user = relationship("UserModel", back_populates="identification")
 
