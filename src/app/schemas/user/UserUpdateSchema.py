@@ -17,12 +17,14 @@ class Address(BaseModel):
     street: str
     number: str
     city: str
+    district: str
 
 
 class Identification(BaseModel):
     birthDate: str
     document: str
     nationality: str
+    language: str
 
 
 class UserUpdateSchema(BaseModel):
