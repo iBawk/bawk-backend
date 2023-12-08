@@ -9,6 +9,7 @@ class Address(BaseModel):
     street: str
     country: str
     complement: str
+    district: str
     state: str
 
 
@@ -17,6 +18,7 @@ class Identification(BaseModel):
     birthDate: str
     document: str
     nationality: str
+    language: str
     
 class User(BaseModel):
     id: str

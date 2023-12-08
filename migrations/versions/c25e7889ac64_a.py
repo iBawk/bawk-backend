@@ -1,8 +1,8 @@
 """a
 
-Revision ID: a7fcbc34e0e3
+Revision ID: c25e7889ac64
 Revises: 
-Create Date: 2023-11-07 22:10:53.001357
+Create Date: 2023-12-07 22:41:53.722874
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = 'a7fcbc34e0e3'
+revision: str = 'c25e7889ac64'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -25,10 +25,11 @@ def upgrade() -> None:
     sa.Column('country', sa.String(), nullable=True),
     sa.Column('zipCode', sa.String(), nullable=True),
     sa.Column('street', sa.String(), nullable=True),
-    sa.Column('number', sa.Integer(), nullable=True),
+    sa.Column('number', sa.String(), nullable=True),
     sa.Column('complement', sa.String(), nullable=True),
     sa.Column('city', sa.String(), nullable=True),
     sa.Column('state', sa.String(), nullable=True),
+    sa.Column('district', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('usersIdentifications',
@@ -36,6 +37,7 @@ def upgrade() -> None:
     sa.Column('nationality', sa.String(), nullable=True),
     sa.Column('document', sa.String(), nullable=True),
     sa.Column('birthDate', sa.String(), nullable=True),
+    sa.Column('language', sa.String(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('usersPreferences',
