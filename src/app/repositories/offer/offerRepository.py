@@ -46,7 +46,7 @@ class OfferRepository:
     def findMarketplaceOffers(self, page, take):
         return (
             self.db.query(OfferModel)
-            .filter(OfferModel.marketplace == 0)
+            .filter(OfferModel.marketplace == 1)
             .limit(take)
             .offset((page - 1) * take)
             .all()
