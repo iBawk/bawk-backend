@@ -1,6 +1,8 @@
 from sqlalchemy.orm import Session
 
 from db.models import TransactionsModel
+from db.models import WalletsModel
+from sqlalchemy.exc import DatabaseError
 
 
 class TransactionsRepository:
@@ -38,3 +40,21 @@ class TransactionsRepository:
             .filter(TransactionsModel.situation == 1)
             .count()
         )
+
+    def AddBalance(self, wallet_id: str, walletNew: WalletsModel):
+        try:
+            wallet = self.db.query(WalletsModel).filter_by(id=wallet_id).first()
+
+            if wallet:
+                self.db.add(walletNew)
+                self.db.commit()
+                self.db.refresh(walletNew)
+
+                return wallet
+
+        except DatabaseError as e:
+            print(e)
+            raise e
+
+    def find_value_by_wallet(self, wallet_id: str):
+        return self.db.query(WalletsModel).filter_by(id=wallet_id).scalar()

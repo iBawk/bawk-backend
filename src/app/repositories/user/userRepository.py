@@ -75,7 +75,7 @@ class UserRepository:
                 .filter(WalletsModel.user_id == user_id)
                 .first()
             )
-            return wallet.id
+            return wallet
         except DatabaseError as e:
             print(e)
             raise (e)

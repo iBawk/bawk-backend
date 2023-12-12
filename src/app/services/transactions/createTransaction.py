@@ -6,14 +6,13 @@ from sqlalchemy.orm import Session
 
 from app.repositories.offer.offerRepository import OfferRepository
 from app.repositories.products.productRepository import ProductRepository
-from app.repositories.transactions.transactionsRepository import \
-    TransactionsRepository
+from app.repositories.transactions.transactionsRepository import TransactionsRepository
 from app.repositories.user.userRepository import UserRepository
-from app.schemas.transactions.TrasactionCreateSchema import \
-    TransactionCreateSchema
+from app.schemas.transactions.TrasactionCreateSchema import TransactionCreateSchema
 from app.schemas.user.UserRegisterSchema import UserRegister
 from app.services.user.createUser import CreateUserServiceV1
-from db.models import TransactionsModel
+from db.models import TransactionsModel, WalletsModel
+from app.schemas.transactions.WalletAddSchema import WalletAddSchema
 
 
 class CreateTransactionsService:
@@ -51,18 +50,24 @@ class CreateTransactionsService:
         user_existis = self.user_repository.get_user_by_email(transaction.email_buyer)
         if not user_existis:
             user_register_data = UserRegister(
-            name=transaction.name_buyer,
-            email=transaction.email_buyer,
-            password=str(uuid.uuid4())
+                name=transaction.name_buyer,
+                email=transaction.email_buyer,
+                password=str(uuid.uuid4()),
             )
 
             user = self.create_user_service.execute(credentials=user_register_data)
-            
+
         buyer = self.user_repository.get_user_by_email(transaction.email_buyer)
         product = self.product_repository.find_by_id(offer.product_id)
-        
+
         saller = self.user_repository.get_user_by_id(product.owner_id)
         wallet = self.user_repository.get_wallet_by_user_id(saller.id)
+
+        newBalance = wallet.amount_free + offer_price
+        wallet.amount_free = newBalance
+        self.db.add(wallet)
+        self.db.commit()
+        self.db.refresh(wallet)
 
         newTransaction = self.transaction_repository.create(
             TransactionsModel(
@@ -74,7 +79,7 @@ class CreateTransactionsService:
                 aproveDate=datetime.datetime.now(),
                 refoundDate="",  # CAMPO VAZIO, POIS NAO FOI REEMBOLSADA
                 buyer_id=buyer.id,
-                wallet_id=wallet,
+                wallet_id=wallet.id,
                 product_id=product.id,
                 paymentMethod=transaction.paymentMethod,  # ID DE PAGAMENTO
             )
