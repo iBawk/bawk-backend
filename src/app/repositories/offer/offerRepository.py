@@ -42,6 +42,18 @@ class OfferRepository:
 
     def find_by_product_id(self, product_id: str):
         return self.db.query(OfferModel).filter_by(product_id=product_id).all()
+    
+    def findMarketplaceOffersWithSearchAndCategory(self, page, take, search, category):
+        return (
+        self.db.query(OfferModel, ProductModel)
+        .join(ProductModel, OfferModel.product_id == ProductModel.id)
+        .filter(OfferModel.marketplace == 1)
+        .filter(ProductModel.name.ilike(f"%{search}%"))
+        .filter(ProductModel.category == category)
+        .limit(take)
+        .offset((page - 1) * take)
+        .all()
+    )
 
     def findMarketplaceOffersWithSearch(self, page, take, search):
         return (
@@ -49,6 +61,17 @@ class OfferRepository:
             .join(ProductModel, OfferModel.product_id == ProductModel.id)
             .filter(OfferModel.marketplace == 1)
             .filter(ProductModel.name.ilike(f"%{search}%"))
+            .limit(take)
+            .offset((page - 1) * take)
+            .all()
+        )
+        
+    def findMarketplaceOffersWithCategory(self, page, take, category):
+        return (
+            self.db.query(OfferModel, ProductModel)
+            .join(ProductModel, OfferModel.product_id == ProductModel.id)
+            .filter(OfferModel.marketplace == 1)
+            .filter(ProductModel.category == category)
             .limit(take)
             .offset((page - 1) * take)
             .all()
@@ -62,6 +85,16 @@ class OfferRepository:
             .offset((page - 1) * take)
             .all()
         )
+        
+    def countMarketplaceOffersWithSearchAndCategory(self, search, category):
+        return (
+        self.db.query(OfferModel, ProductModel).
+        join(ProductModel)
+        .filter(OfferModel.marketplace == 1)
+        .filter(ProductModel.name.ilike(f"%{search}%"))
+        .filter(ProductModel.category == category)
+        .count()
+    )
 
     def countMarketplaceOffersWithSearch(self, search):
         return (
@@ -71,6 +104,15 @@ class OfferRepository:
             .filter(ProductModel.name.ilike(f"%{search}%"))
             .count()
         )
+        
+    def countMarketplaceOffersWithCategory(self, category):
+        return (
+        self.db.query(OfferModel, ProductModel).
+        join(ProductModel)
+        .filter(OfferModel.marketplace == 1)
+        .filter(ProductModel.category == category)
+        .count()
+    )
         
     def countMarketplaceOffers(self):
         return (

@@ -35,10 +35,10 @@ class offerController:
             print(e)
             raise e
         
-    def marketplaceOffers(self, page, take, search):
+    def marketplaceOffers(self, page, take, search, category):
         
         try:
-            return self.find_marketplace_offers.execute(page, take, search)
+            return self.find_marketplace_offers.execute(page, take, search, category)
         except Exception as e:
             print(e)
             raise e
