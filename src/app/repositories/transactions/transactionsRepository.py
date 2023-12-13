@@ -65,3 +65,15 @@ class TransactionsRepository:
             .filter(TransactionsModel.aproveDate <= data_fim)
             .all()
         )
+
+    def findSalesFromUser(self, wallet_id: str):
+        return (
+            self.db.query(TransactionsModel)
+            .filter(TransactionsModel.wallet_id == wallet_id)
+            .all()
+        )
+
+    def getWalletId(self, user_id: str):
+        return (
+            self.db.query(WalletsModel).filter(WalletsModel.user_id == user_id).first()
+        )
