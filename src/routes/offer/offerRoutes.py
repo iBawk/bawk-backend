@@ -45,11 +45,11 @@ def update(offer_id: str, offer: UpdateOfferSchema, user: UserModel = Depends(ve
         )
         
 @offerRoutes.get("/marketplace/all", summary="Busca todas as ofertas disponiveis para o marketplace.")
-def marketpalceOffers(page: int = 1, take: int = 10, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
+def marketpalceOffers(page: int = 1, take: int = 10, search: str = None, user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)):
     offer_controller = offerController(db)
     
     try:
-        return offer_controller.marketplaceOffers(page, take)
+        return offer_controller.marketplaceOffers(page, take, search)
     except Exception as e:
         print(e)
         return HTTPException(

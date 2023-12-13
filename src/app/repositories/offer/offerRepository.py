@@ -1,7 +1,7 @@
 from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm import Session
 
-from db.models import OfferModel
+from db.models import OfferModel, ProductModel
 
 
 class OfferRepository:
@@ -43,6 +43,17 @@ class OfferRepository:
     def find_by_product_id(self, product_id: str):
         return self.db.query(OfferModel).filter_by(product_id=product_id).all()
 
+    def findMarketplaceOffersWithSearch(self, page, take, search):
+        return (
+            self.db.query(OfferModel, ProductModel)
+            .join(ProductModel, OfferModel.product_id == ProductModel.id)
+            .filter(OfferModel.marketplace == 1)
+            .filter(ProductModel.name.ilike(f"%{search}%"))
+            .limit(take)
+            .offset((page - 1) * take)
+            .all()
+        )
+        
     def findMarketplaceOffers(self, page, take):
         return (
             self.db.query(OfferModel)
@@ -52,8 +63,21 @@ class OfferRepository:
             .all()
         )
 
+    def countMarketplaceOffersWithSearch(self, search):
+        return (
+            self.db.query(OfferModel, ProductModel).
+            join(ProductModel)
+            .filter(OfferModel.marketplace == 1)
+            .filter(ProductModel.name.ilike(f"%{search}%"))
+            .count()
+        )
+        
     def countMarketplaceOffers(self):
-        return self.db.query(OfferModel).filter(OfferModel.marketplace == 0).count()
+        return (
+            self.db.query(OfferModel)
+            .filter(OfferModel.marketplace == 1)
+            .count()
+        )
 
     def removeMarketplaceFlag(self, offer_id):
         self.db.query(OfferModel).filter_by(id=offer_id).update(
