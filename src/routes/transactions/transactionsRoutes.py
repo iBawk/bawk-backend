@@ -47,3 +47,15 @@ def update(
         return transactions_controller.update(transaction_id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
+
+
+@transactionsRoutes.get("/period", summary="Busca venda nos ultimos 7 dias.")
+def getPeriod(
+    user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)
+):
+    transactions_controller = transactionsController(db)
+
+    try:
+        return transactions_controller.getPeriod(user)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e
