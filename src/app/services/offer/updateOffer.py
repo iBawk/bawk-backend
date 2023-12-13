@@ -18,11 +18,15 @@ class UpdateOfferService:
                     status_code=status.HTTP_400_BAD_REQUEST,
                     detail="Oferta não encontrada."
                 )
+            
         
         product_offers = self.offer_repository.find_by_product_id(offer.product_id)
         for product_offer in product_offers:
             if product_offer.marketplace is True and newOfferData.marketplace is True and product_offer.id != offer.id:
                 self.offer_repository.removeMarketplaceFlag(product_offer.id)
+                
+        if newOfferData.situation == 2:
+            newOfferData.marketplace = False
         
         offer.marketplace = newOfferData.marketplace
         offer.situation = newOfferData.situation
