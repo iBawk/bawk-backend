@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.services.transactions.createTransaction import CreateTransactionsService
 from app.services.transactions.findProductByTransaction import FindProductByTransaction
 from app.services.transactions.updateTransaction import UpdateTransactionService
+from app.services.transactions.getTransactionPeriod import GetTransactionPeriodService
+from db.models import UserModel
 
 
 class transactionsController:
@@ -11,6 +13,7 @@ class transactionsController:
         self.create_transactions_service = CreateTransactionsService(db)
         self.find_product_by_transaction = FindProductByTransaction(db)
         self.update_transactions_service = UpdateTransactionService(db)
+        self.get_transactions_period_service = GetTransactionPeriodService(db)
 
     def createTransaction(self, transaction):
         try:
@@ -29,6 +32,13 @@ class transactionsController:
     def update(self, transactions_id: str):
         try:
             return self.update_transactions_service.execute(transactions_id)
+        except Exception as e:
+            print(e)
+            raise e
+
+    def getPeriod(self, user: UserModel):
+        try:
+            return self.get_transactions_period_service.execute(user)
         except Exception as e:
             print(e)
             raise e

@@ -1,8 +1,7 @@
+from sqlalchemy.exc import DatabaseError
 from sqlalchemy.orm import Session
 
-from db.models import TransactionsModel
-from db.models import WalletsModel
-from sqlalchemy.exc import DatabaseError
+from db.models import TransactionsModel, WalletsModel
 
 
 class TransactionsRepository:
@@ -58,3 +57,11 @@ class TransactionsRepository:
 
     def find_value_by_wallet(self, wallet_id: str):
         return self.db.query(WalletsModel).filter_by(id=wallet_id).scalar()
+
+    def findSellsSevenDaysAgo(self, data_inicio, data_fim):
+        return (
+            self.db.query(TransactionsModel)
+            .filter(TransactionsModel.aproveDate >= data_inicio)
+            .filter(TransactionsModel.aproveDate <= data_fim)
+            .all()
+        )

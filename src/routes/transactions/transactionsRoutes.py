@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session
 
 from app.controllers.transactionsController import transactionsController
 from app.middlewares.verifyJWT import verifyJWT
-from app.schemas.transactions.TrasactionCreateSchema import TransactionCreateSchema
+from app.schemas.transactions.TrasactionCreateSchema import \
+    TransactionCreateSchema
 from db.models import UserModel
 from lib.depends import get_db_Session
 
@@ -45,5 +46,17 @@ def update(
 
     try:
         return transactions_controller.update(transaction_id)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e
+
+
+@transactionsRoutes.get("/chart", summary="Busca vendas nos ultimos 7 dias.")
+def getPeriod(
+    user: UserModel = Depends(verifyJWT), db: Session = Depends(get_db_Session)
+):
+    transactions_controller = transactionsController(db)
+
+    try:
+        return transactions_controller.getPeriod(user)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e)) from e
